@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KisanConnect - Farm to Table, No Middlemen</title>
+  <meta name="description" content="Direct Farmer-to-Consumer & Bulk Buyer Marketplace solving SIH26033. Direct farm gate pricing, AI demand forecasting, and logistics tracking." />
+  <meta property="og:title" content="KisanConnect - Farm to Table, No Middlemen" />
+  <meta property="og:description" content="Direct Farmer-to-Consumer & Bulk Buyer Marketplace solving SIH26033." />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <!-- Site Header / Navbar -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+        <div>
+          <span>KisanConnect</span>
+          <span class="brand-tagline">Farm to Table, No Middlemen</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#problem-solution" class="nav-link">Why KisanConnect</a></li>
+          <li><a href="#mandi-calculator" class="nav-link">Price Calculator</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li>
+            <a href="buyer-dashboard.html" class="btn btn-sm btn-outline">
+              🛒 Market
+            </a>
+          </li>
+          <li>
+            <a href="login.html" class="btn btn-sm btn-primary">
+              Sign In / Register
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div>
+        <span class="section-tag">Smart India Hackathon • SIH26033</span>
+        <h1 class="hero-title">
+          Farm to Table, <span>No Middlemen.</span>
+        </h1>
+        <p class="hero-subtitle">
+          Directly connect Indian farmers & FPOs with consumers and bulk buyers. Eliminate commission agents, forecast crop demand with AI, and track fresh produce from soil to doorstep.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="login.html?role=farmer" class="btn btn-lg btn-primary">
+            👨‍🌾 Join as Farmer / FPO
+          </a>
+          <a href="buyer-dashboard.html" class="btn btn-lg btn-accent">
+            🛒 Shop Fresh as Buyer
+          </a>
+        </div>
+
+        <div class="hero-badges">
+          <div class="hero-badge-item">
+            <svg class="hero-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+            <span>+22% Farmer Earnings</span>
+          </div>
+          <div class="hero-badge-item">
+            <svg class="hero-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span>Zero Middleman Cut</span>
+          </div>
+          <div class="hero-badge-item">
+            <svg class="hero-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+            <span>AI Demand Forecast</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Role Selector Card -->
+      <div class="hero-card-role-box">
+        <h3 style="font-size: 1.25rem;">Choose Your Experience</h3>
+        <p style="font-size: 0.88rem; color: #666; margin-top: -12px;">Test the prototype as either a producer or a buyer:</p>
+
+        <a href="farmer-dashboard.html" class="role-choice-card">
+          <div class="role-choice-icon">👨‍🌾</div>
+          <div class="role-choice-info">
+            <h4>Farmer / FPO (Seller) Portal</h4>
+            <p>List produce, manage dispatch orders, view AI demand predictions & earnings comparison.</p>
+          </div>
+          <span style="font-weight: 700; color: #2E7D32;">→</span>
+        </a>
+
+        <a href="buyer-dashboard.html" class="role-choice-card">
+          <div class="role-choice-icon">🛒</div>
+          <div class="role-choice-info">
+            <h4>Consumer & Bulk Buyer Store</h4>
+            <p>Browse fresh farm-gate crops, bulk tiers, cart checkout, and real-time package tracker.</p>
+          </div>
+          <span style="font-weight: 700; color: #2E7D32;">→</span>
+        </a>
+
+        <div style="background: #F1F8E9; border-radius: 8px; padding: 12px; font-size: 0.82rem; color: #1B5E20; text-align: center;">
+          💡 <strong>Full Reactivity:</strong> Adding produce as a farmer instantly updates the buyer marketplace!
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Statement & Solution Breakdown (SIH26033) -->
+  <section class="sih-section" id="problem-solution">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">SIH Problem Statement SIH26033</span>
+        <h2 class="section-title">Eliminating the Multi-Tier Middleman Drain</h2>
+        <p class="section-desc">
+          In India's conventional agriculture supply chain, a crop passes through 4 to 6 intermediaries before reaching the consumer. Farmers receive less than 30% of the retail price while consumers pay exorbitant markups.
+        </p>
+      </div>
+
+      <div class="comparison-grid">
+        <!-- The Problem -->
+        <div class="comparison-card bad">
+          <h3 class="comparison-card-title" style="color: #C62828;">
+            <span>❌ Traditional Mandi Chain</span>
+          </h3>
+          <ul class="comparison-list">
+            <li>
+              <span>🔴</span>
+              <div><strong>4-6 Layers of Intermediaries:</strong> Village aggregators, local commission agents (arhatiyas), wholesale mandis, transport brokers, and city retailers each take a cut.</div>
+            </li>
+            <li>
+              <span>🔴</span>
+              <div><strong>Exploitative Pricing & Distress Sales:</strong> Farmers are forced to accept whatever the local cartel quotes on harvest day, often below production costs.</div>
+            </li>
+            <li>
+              <span>🔴</span>
+              <div><strong>No Demand Visibility:</strong> Farmers plant crops blindly without market intelligence, leading to massive gluts, rotting produce, and crashing prices.</div>
+            </li>
+            <li>
+              <span>🔴</span>
+              <div><strong>Consumer Pays +60% Extra:</strong> By the time produce reaches dining tables, retail prices are inflated and freshness is degraded by 3-5 days.</div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- The Solution -->
+        <div class="comparison-card good">
+          <h3 class="comparison-card-title" style="color: #2E7D32;">
+            <span>✅ The KisanConnect Direct Way</span>
+          </h3>
+          <ul class="comparison-list">
+            <li>
+              <span>🟢</span>
+              <div><strong>Direct Farmer-to-Buyer Contract:</strong> Zero middleman commissions. Farmers list directly at fair farm-gate prices.</div>
+            </li>
+            <li>
+              <span>🟢</span>
+              <div><strong>~22% Higher Farm Incomes:</strong> Farmers retain the bulk of value addition and receive transparent digital settlements.</div>
+            </li>
+            <li>
+              <span>🟢</span>
+              <div><strong>AI-Driven Demand Forecasting:</strong> Pre-harvest predictive analytics forecast 7-14 day urban demand so farmers plant and harvest profitably.</div>
+            </li>
+            <li>
+              <span>🟢</span>
+              <div><strong>Cold-Chain Logistics & Bulk Tiers:</strong> Direct farm-gate pickup with clear status tracking for household consumers, restaurants, and apartments.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Mandi vs KisanConnect Price Calculator -->
+  <section class="sih-section" id="mandi-calculator" style="background: #F4F3EF;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Interactive Demonstration</span>
+        <h2 class="section-title">Mandi vs KisanConnect Earnings Calculator</h2>
+        <p class="section-desc">See the mathematical impact of removing middlemen commissions on typical Indian crops.</p>
+      </div>
+
+      <div class="calc-card">
+        <div class="calc-grid">
+          <div>
+            <div class="form-group">
+              <label class="form-label" for="calc-crop">Select Crop / Produce</label>
+              <select id="calc-crop" class="form-control">
+                <option value="tomato" data-mandi="26" data-direct="34" data-retail="48">Desi Tomatoes (per kg)</option>
+                <option value="onion" data-mandi="20" data-direct="28" data-retail="38">Nasik Red Onions (per kg)</option>
+                <option value="potato" data-mandi="16" data-direct="22" data-retail="32">Pahadi Potatoes (per kg)</option>
+                <option value="wheat" data-mandi="34" data-direct="44" data-retail="60">Sharbati Wheat (per kg)</option>
+                <option value="orange" data-mandi="45" data-direct="62" data-retail="85">Nagpur Oranges (per kg)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="calc-qty">Harvest Quantity (Quintals or Kg)</label>
+              <div style="display: flex; gap: 12px;">
+                <input type="number" id="calc-qty" class="form-control" value="500" min="10" step="50" />
+                <span style="display: flex; align-items: center; font-weight: 700; color: #555;">KG</span>
+              </div>
+            </div>
+
+            <div style="font-size: 0.88rem; color: #666; margin-top: 14px; line-height: 1.5;">
+              * Benchmarked against average APMC Mandi arrival net payouts vs KisanConnect farm-gate direct listing prices.
+            </div>
+          </div>
+
+          <div class="calc-results">
+            <div class="calc-stat-row">
+              <span>Traditional Mandi Farmer Payout:</span>
+              <strong id="calc-mandi-net">₹13,000</strong>
+            </div>
+            <div class="calc-stat-row">
+              <span>Middleman Commission Absorbed:</span>
+              <strong id="calc-commission-cut" style="color: #D32F2F;">- ₹4,000 (23%)</strong>
+            </div>
+            <div class="calc-stat-row">
+              <span>KisanConnect Direct Farmer Revenue:</span>
+              <strong id="calc-direct-revenue" style="color: #2E7D32;">₹17,000</strong>
+            </div>
+            <div class="calc-stat-row">
+              <span>Consumer Savings vs City Supermarket:</span>
+              <strong id="calc-consumer-savings" style="color: #F4A300;">Saved ₹7,000 (29%)</strong>
+            </div>
+
+            <div class="calc-extra-profit">
+              <div>Farmer Additional Net Profit</div>
+              <h3 id="calc-extra-profit-val">+ ₹4,000 (+30.8%)</h3>
+              <small>Zero distress sales • Direct UPI bank settlement</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="sih-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Streamlined Supply Chain</span>
+        <h2 class="section-title">How KisanConnect Works</h2>
+        <p class="section-desc">From harvest to doorstep in 4 simple steps.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
+        <div class="card" style="text-align: center;">
+          <div style="font-size: 2.2rem; margin-bottom: 12px;">🌱</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 6px;">1. AI Demand Guidance</h4>
+          <p style="font-size: 0.88rem; color: #666;">Farmers view 7-14 day forecast charts and price insights before scheduling their harvest.</p>
+        </div>
+
+        <div class="card" style="text-align: center;">
+          <div style="font-size: 2.2rem; margin-bottom: 12px;">📱</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 6px;">2. Direct Farm Listing</h4>
+          <p style="font-size: 0.88rem; color: #666;">Produce is listed with crop details, harvest date, and bulk price tiers for wholesale buyers.</p>
+        </div>
+
+        <div class="card" style="text-align: center;">
+          <div style="font-size: 2.2rem; margin-bottom: 12px;">🛒</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 6px;">3. Direct Purchase</h4>
+          <p style="font-size: 0.88rem; color: #666;">Households, apartments, and restaurants buy fresh farm produce without intermediary markups.</p>
+        </div>
+
+        <div class="card" style="text-align: center;">
+          <div style="font-size: 2.2rem; margin-bottom: 12px;">🚚</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 6px;">4. Verified Rural Logistics</h4>
+          <p style="font-size: 0.88rem; color: #666;">Cold-chain pickup from farm gate straight to consumer hub with live 4-step status tracker.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="color: #FFFFFF; margin-bottom: 14px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: #F4A300;">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+            </svg>
+            <span>KisanConnect</span>
+          </div>
+          <p style="font-size: 0.9rem; line-height: 1.6; color: #B4C2B2;">
+            Empowering Indian agriculture through direct farm-to-consumer digital commerce, transparent price discovery, and predictive AI demand planning. Built for SIH26033.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Prototype Links</h4>
+          <ul class="footer-links">
+            <li><a href="farmer-dashboard.html">👨‍🌾 Farmer / FPO Dashboard</a></li>
+            <li><a href="buyer-dashboard.html">🛒 Consumer & Bulk Buyer Store</a></li>
+            <li><a href="login.html">🔑 Sign In / Choose Role</a></li>
+            <li><a href="#mandi-calculator">📊 Mandi Calculator</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>SIH26033 Architecture</h4>
+          <p style="font-size: 0.85rem; color: #B4C2B2; margin-bottom: 12px;">
+            Clean vanilla JS frontend structured with <code>fetch()</code> client modules ready to integrate with Django REST Framework backend APIs.
+          </p>
+          <div style="font-size: 0.78rem; color: #8D9E8B;">
+            Endpoints: <code>/api/produce/</code> • <code>/api/orders/</code> • <code>/api/forecast/</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        KisanConnect • Smart India Hackathon Problem SIH26033 Prototype • Farm to Table, No Middlemen.
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./app.js"></script>
+  <script type="module">
+    import { renderDemoBar, formatINR } from './app.js';
+    renderDemoBar('landing');
+
+    // Mandi vs KisanConnect live calculator
+    const cropSelect = document.getElementById('calc-crop');
+    const qtyInput = document.getElementById('calc-qty');
+
+    function updateCalc() {
+      const opt = cropSelect.options[cropSelect.selectedIndex];
+      const mandiPerKg = Number(opt.getAttribute('data-mandi'));
+      const directPerKg = Number(opt.getAttribute('data-direct'));
+      const retailPerKg = Number(opt.getAttribute('data-retail'));
+      const qty = Number(qtyInput.value) || 100;
+
+      const mandiNet = mandiPerKg * qty;
+      const directRev = directPerKg * qty;
+      const retailCost = retailPerKg * qty;
+      const commissionCut = directRev - mandiNet;
+      const consumerSavings = retailCost - directRev;
+      const extraProfitPct = (((directRev - mandiNet) / mandiNet) * 100).toFixed(1);
+
+      document.getElementById('calc-mandi-net').textContent = formatINR(mandiNet);
+      document.getElementById('calc-commission-cut').textContent = `- ${formatINR(commissionCut)} (${extraProfitPct}%)`;
+      document.getElementById('calc-direct-revenue').textContent = formatINR(directRev);
+      document.getElementById('calc-consumer-savings').textContent = `Saved ${formatINR(consumerSavings)} (${Math.round((consumerSavings/retailCost)*100)}%)`;
+      document.getElementById('calc-extra-profit-val').textContent = `+ ${formatINR(commissionCut)} (+${extraProfitPct}%)`;
+    }
+
+    cropSelect.addEventListener('change', updateCalc);
+    qtyInput.addEventListener('input', updateCalc);
+    updateCalc();
+  </script>
+</body>
+</html>

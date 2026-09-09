@@ -1,0 +1,6 @@
+{
+  "name": "KisanConnect",
+  "description": "Farmer-to-Consumer direct marketplace with AI demand forecasting, logistics tracking, and fair pricing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farmer Portal - KisanConnect (SIH26033)</title>
+  <meta name="description" content="KisanConnect Farmer and FPO Seller Dashboard - Manage produce, orders, logistics, AI demand forecasting, and mandi earnings comparison." />
+  <link rel="stylesheet" href="./style.css" />
+  <!-- Chart.js CDN for AI Demand Forecast Visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F4A300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+          </svg>
+          <span>KisanConnect</span>
+        </div>
+
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar" id="farmer-avatar-letter">R</div>
+          <div class="sidebar-user-details">
+            <h5 id="farmer-name-display">Ramesh Patil</h5>
+            <p id="farmer-location-display">Nashik, Maharashtra</p>
+          </div>
+        </div>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="#produce" class="sidebar-nav-link active" data-tab="produce">
+            <span>📦</span>
+            <span>My Produce</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="#orders" class="sidebar-nav-link" data-tab="orders">
+            <span>📋</span>
+            <span>Orders & Dispatch</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="#logistics" class="sidebar-nav-link" data-tab="logistics">
+            <span>🚚</span>
+            <span>Logistics Tracker</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="#forecast" class="sidebar-nav-link" data-tab="forecast">
+            <span>📈</span>
+            <span>Demand Forecast (AI)</span>
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="#earnings" class="sidebar-nav-link" data-tab="earnings">
+            <span>💰</span>
+            <span>Earnings & Mandi Stat</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="buyer-dashboard.html" class="btn btn-sm btn-outline-white" style="width: 100%; font-size: 0.82rem;">
+          🛒 View Buyer Market
+        </a>
+        <button type="button" class="btn btn-sm btn-danger" id="logout-btn" style="width: 100%; font-size: 0.82rem;">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Header Bar -->
+      <header class="top-bar">
+        <div>
+          <h2 id="page-title" style="font-size: 1.45rem;">My Produce</h2>
+          <small style="color: #666;">Direct Farm-Gate Listings • No Middlemen Commissions</small>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button type="button" class="btn btn-primary" id="btn-open-add-produce">
+            ➕ Add New Produce
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Tab Panes -->
+      <div class="content-body">
+        
+        <!-- =========================================================================
+             TAB 1: MY PRODUCE
+             ========================================================================= -->
+        <section class="tab-pane active" id="tab-produce">
+          <!-- Quick Stat Strip -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-label">Active Listed Produce</span>
+              <div class="stat-value" id="stat-total-produce-count">6 Active Crops</div>
+              <div class="stat-subtext">Direct to 100% verified buyers</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Pending Orders</span>
+              <div class="stat-value" id="stat-pending-orders">2 Orders</div>
+              <div class="stat-subtext">Requires packing & dispatch</div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Mandi Price Premium</span>
+              <div class="stat-value" style="color: #2E7D32;">+22.4%</div>
+              <div class="stat-subtext">Above traditional APMC cartel net rate</div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="font-size: 1.2rem;">Currently Listed Farm Produce</h3>
+            <span style="font-size: 0.85rem; color: #666;">Items added here appear immediately on the Buyer Marketplace.</span>
+          </div>
+
+          <div class="produce-grid" id="farmer-produce-grid">
+            <!-- Rendered dynamically by farmer.js -->
+          </div>
+        </section>
+
+
+        <!-- =========================================================================
+             TAB 2: ORDERS & DISPATCH
+             ========================================================================= -->
+        <section class="tab-pane" id="tab-orders">
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 1.25rem;">Incoming Buyer Orders</h3>
+            <p style="color: #666; font-size: 0.9rem;">
+              Manage and fulfill orders from household consumers and bulk buyers. Updating status syncs immediately with the buyer's tracking screen.
+            </p>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Buyer & Location</th>
+                  <th>Crops & Qty</th>
+                  <th>Total (₹)</th>
+                  <th>Date</th>
+                  <th>Current Status</th>
+                  <th>Action / Update</th>
+                </tr>
+              </thead>
+              <tbody id="farmer-orders-body">
+                <!-- Rendered dynamically by farmer.js -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+
+        <!-- =========================================================================
+             TAB 3: LOGISTICS TRACKER
+             ========================================================================= -->
+        <section class="tab-pane" id="tab-logistics">
+          <div style="margin-bottom: 24px;">
+            <h3 style="font-size: 1.25rem;">Rural Cold-Chain Logistics Tracker</h3>
+            <p style="color: #666; font-size: 0.9rem;">
+              End-to-end milestone tracker for all dispatched farm consignments. Direct farm gate pickup to urban delivery hubs.
+            </p>
+          </div>
+
+          <div id="logistics-cards-container">
+            <!-- Rendered dynamically by farmer.js -->
+          </div>
+        </section>
+
+
+        <!-- =========================================================================
+             TAB 4: AI DEMAND FORECASTING (SIH26033 KEY FEATURE)
+             ========================================================================= -->
+        <section class="tab-pane" id="tab-forecast">
+          <div class="forecast-card">
+            <div class="forecast-header">
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                  <span class="ai-pill">✨ AI Predictive Intelligence</span>
+                  <span style="font-size: 0.82rem; color: #666;">SIH26033 Demand Planning</span>
+                </div>
+                <h3 style="font-size: 1.35rem;">Pre-Harvest Demand Forecast Engine</h3>
+                <p style="color: #666; font-size: 0.9rem;">
+                  Time-series projection combining APMC Mandi historical arrivals, seasonal festival indicators, and urban consumer booking data.
+                </p>
+              </div>
+
+              <!-- Controls -->
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <div>
+                  <label for="forecast-crop-select" style="font-size: 0.78rem; font-weight: 700; color: #555; display: block;">Select Crop:</label>
+                  <select id="forecast-crop-select" class="form-control" style="padding: 6px 12px; font-size: 0.88rem;">
+                    <option value="Tomatoes" selected>Tomatoes (Himsona / Desi)</option>
+                    <option value="Onions">Red Nasik Onions</option>
+                    <option value="Wheat">Sharbati Golden Wheat</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="forecast-days-select" style="font-size: 0.78rem; font-weight: 700; color: #555; display: block;">Forecast Horizon:</label>
+                  <select id="forecast-days-select" class="form-control" style="padding: 6px 12px; font-size: 0.88rem;">
+                    <option value="7">Next 7 Days</option>
+                    <option value="14" selected>Next 14 Days</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dynamic AI Forecast Insight Box -->
+            <div id="ai-forecast-insight" class="ai-insight-box" style="margin-bottom: 20px;">
+              <!-- Rendered by farmer.js -->
+            </div>
+
+            <!-- Chart.js Canvas -->
+            <div style="position: relative; height: 320px; width: 100%;">
+              <canvas id="demandForecastChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Additional AI Agricultural Advisory Cards -->
+          <div class="ai-insights-grid">
+            <div class="ai-insight-box">
+              <div class="ai-insight-title" style="color: #2E7D32;">
+                <span>💡</span> Pricing Optimization Suggestion
+              </div>
+              <p class="ai-insight-desc">
+                Direct buyer demand for Grade-A Tomatoes in Pune & Mumbai is expected to peak between Friday & Sunday. Set listing price at ₹34/kg to maximize volume without losing price competitiveness.
+              </p>
+            </div>
+
+            <div class="ai-insight-box warning">
+              <div class="ai-insight-title" style="color: #E65100;">
+                <span>⚠️</span> Glut Risk Alert (Local Area)
+              </div>
+              <p class="ai-insight-desc">
+                Cabbage harvesting across neighboring Sinnar taluka is projected +40% in 10 days. Consider listing advance bulk pre-orders now to lock in guaranteed hotel buyers.
+              </p>
+            </div>
+
+            <div class="ai-insight-box tip">
+              <div class="ai-insight-title" style="color: #283593;">
+                <span>📦</span> Wholesale Bulk Demand Match
+              </div>
+              <p class="ai-insight-desc">
+                3 Restaurant Kitchens in Dadar and Thane are currently searching for 200kg weekly onion lots. Enable Bulk Mode tiers to automatically quote.
+              </p>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- =========================================================================
+             TAB 5: EARNINGS & MANDI COMPARISON
+             ========================================================================= -->
+        <section class="tab-pane" id="tab-earnings">
+          <div style="margin-bottom: 24px;">
+            <h3 style="font-size: 1.25rem;">Farm Revenue & Middleman Benefit Audit</h3>
+            <p style="color: #666; font-size: 0.9rem;">
+              Audited comparison of your real KisanConnect direct earnings versus estimated local APMC Mandi payouts.
+            </p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-label">Total Direct Revenue</span>
+              <div class="stat-value" id="earnings-total-revenue" style="color: #2E7D32;">₹1,48,500</div>
+              <div class="stat-subtext">Direct to bank via UPI / NEFT</div>
+            </div>
+
+            <div class="stat-card">
+              <span class="stat-label">Pending Settlement</span>
+              <div class="stat-value" id="earnings-pending" style="color: #F4A300;">₹12,800</div>
+              <div class="stat-subtext">Clears upon delivery confirmation</div>
+            </div>
+
+            <div class="stat-card" style="border: 2px solid #C8E6C9; background: #F8FCF8;">
+              <span class="stat-label">Mandi Price Advantage</span>
+              <div class="stat-value" id="earnings-extra-profit" style="color: #1B5E20;">+22.4%</div>
+              <div class="stat-subtext">₹27,200 extra compared to middlemen</div>
+            </div>
+
+            <div class="stat-card" style="border: 2px solid #FFE082; background: #FFFDF7;">
+              <span class="stat-label">Middleman Commission Saved</span>
+              <div class="stat-value" id="earnings-commission-saved" style="color: #E65100;">₹14,200</div>
+              <div class="stat-subtext">Zero adatya & broker deductions</div>
+            </div>
+          </div>
+
+          <!-- Comparison Graphic / Benefit Card -->
+          <div class="card" style="margin-bottom: 28px; background: #F1F8E9; border-color: #C8E6C9;">
+            <h4 style="font-size: 1.15rem; color: #1B5E20; margin-bottom: 12px;">
+              Direct Value Capture Breakdown (SIH26033 Core Goal)
+            </h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+              <div>
+                <p style="font-size: 0.9rem; color: #333; line-height: 1.5;">
+                  At traditional APMC Mandis, <strong>₹26/kg</strong> was the net payout received after factoring in 8% adatya commissions, unloading levies, weighing deductions, and payment delay cuts.
+                </p>
+                <div style="margin-top: 12px; font-weight: 700; color: #D32F2F;">
+                  ❌ Traditional Net: ₹1,21,300 (Middleman took ₹27,200)
+                </div>
+              </div>
+
+              <div>
+                <p style="font-size: 0.9rem; color: #333; line-height: 1.5;">
+                  On KisanConnect, your average realized price is <strong>₹34.50/kg</strong> with 0% commission, scheduled pickup, and 24-hour digital bank settlement.
+                </p>
+                <div style="margin-top: 12px; font-weight: 700; color: #2E7D32;">
+                  ✅ KisanConnect Net: ₹1,48,500 (+₹27,200 pure farmer profit!)
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payout History -->
+          <div class="card">
+            <h4 style="font-size: 1.15rem; margin-bottom: 16px;">Direct Bank Settlement History</h4>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Payout Ref</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Payment Route</th>
+                    <th>Status</th>
+                    <th>Invoice</th>
+                  </tr>
+                </thead>
+                <tbody id="earnings-payouts-body">
+                  <!-- Rendered dynamically by farmer.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ADD PRODUCE MODAL -->
+  <div class="modal-overlay" id="add-produce-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">🌾 List New Farm Produce</h3>
+        <button type="button" class="modal-close" id="btn-close-modal">✕</button>
+      </div>
+
+      <form id="form-add-produce">
+        <div class="form-group">
+          <label class="form-label" for="produce-name">Crop / Produce Name</label>
+          <input type="text" id="produce-name" class="form-control" placeholder="e.g. Desi Hybrid Tomatoes or Sharbati Wheat" required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="produce-category">Category</label>
+            <select id="produce-category" class="form-control">
+              <option value="Vegetables" selected>Vegetables</option>
+              <option value="Fruits">Fruits</option>
+              <option value="Grains">Grains & Cereals</option>
+              <option value="Pulses">Pulses & Dal</option>
+              <option value="Dairy">Dairy & Ghee</option>
+              <option value="Spices">Spices</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="produce-harvest-date">Harvest Date</label>
+            <input type="date" id="produce-harvest-date" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="produce-price">Listing Price (₹ per kg)</label>
+            <input type="number" id="produce-price" class="form-control" placeholder="32" min="1" required />
+            <small style="color: #666; font-size: 0.78rem;">Suggested direct price: 15-25% above local mandi</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="produce-quantity">Available Quantity (kg)</label>
+            <input type="number" id="produce-quantity" class="form-control" placeholder="500" min="1" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="produce-image">Image URL (Optional)</label>
+          <input type="url" id="produce-image" class="form-control" placeholder="Leave empty for category preset image" />
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="produce-organic" style="accent-color: #2E7D32;" checked />
+          <label for="produce-organic" style="font-size: 0.9rem; cursor: pointer;">
+            🌱 Certified Organic / Bio-Pesticide Free
+          </label>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+          <button type="button" class="btn btn-outline" onclick="document.getElementById('add-produce-modal').classList.remove('active')">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Publish Produce
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="./farmer.js"></script>
+</body>
+</html>

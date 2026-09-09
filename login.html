@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KisanConnect - Sign In / Register (SIH26033)</title>
+  <meta name="description" content="Sign in or register as a Farmer/FPO Seller or Consumer/Bulk Buyer on KisanConnect." />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+        <div>
+          <span>KisanConnect</span>
+          <span class="brand-tagline">Farm to Table, No Middlemen</span>
+        </div>
+      </a>
+
+      <a href="index.html" class="btn btn-sm btn-outline">
+        ← Back to Home
+      </a>
+    </div>
+  </header>
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div style="font-size: 2.2rem; margin-bottom: 4px;">🌾</div>
+        <h2>Welcome to KisanConnect</h2>
+        <p style="color: #666; font-size: 0.9rem;">Empowering direct farm trade without middlemen.</p>
+      </div>
+
+      <!-- Role Selection Tabs -->
+      <div class="role-tabs">
+        <button type="button" class="role-tab-btn active" id="role-tab-farmer" data-role="farmer">
+          👨‍🌾 Farmer / FPO (Seller)
+        </button>
+        <button type="button" class="role-tab-btn" id="role-tab-buyer" data-role="buyer">
+          🛒 Consumer / Bulk Buyer
+        </button>
+      </div>
+
+      <!-- Sign In vs Sign Up Tabs -->
+      <div class="auth-mode-switch">
+        <button type="button" class="auth-mode-btn active" id="mode-btn-login">
+          Sign In
+        </button>
+        <button type="button" class="auth-mode-btn" id="mode-btn-signup">
+          Create Account
+        </button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="form-login">
+        <div class="form-group">
+          <label class="form-label" for="login-username">Username or Email</label>
+          <input type="text" id="login-username" class="form-control" placeholder="ramesh.patil@kisanconnect.in" required />
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <label class="form-label" for="login-password">Password</label>
+            <a href="#" onclick="alert('Password reset OTP sent to registered mobile.'); return false;" style="font-size: 0.8rem;">Forgot?</a>
+          </div>
+          <input type="password" id="login-password" class="form-control" value="••••••••" required />
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="remember-me" checked style="accent-color: #2E7D32;" />
+          <label for="remember-me" style="font-size: 0.88rem; color: #555; cursor: pointer;">Remember this role on this device</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="btn-submit-login">
+          Sign In as Farmer
+        </button>
+      </form>
+
+      <!-- SIGNUP FORM (Initially Hidden) -->
+      <form id="form-signup" style="display: none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="signup-name">Full Name</label>
+            <input type="text" id="signup-name" class="form-control" placeholder="e.g. Ramesh Patil" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="signup-phone">Mobile Number (+91)</label>
+            <input type="tel" id="signup-phone" class="form-control" placeholder="98220 54321" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="signup-email">Email Address</label>
+          <input type="email" id="signup-email" class="form-control" placeholder="name@example.com" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="signup-password">Password</label>
+          <input type="password" id="signup-password" class="form-control" placeholder="At least 6 characters" required />
+        </div>
+
+        <!-- Dynamic Farmer Specific Fields -->
+        <div id="farmer-fields-group">
+          <div class="form-group">
+            <label class="form-label" for="signup-farm-location">
+              Farm / FPO Location (Village / District)
+            </label>
+            <input type="text" id="signup-farm-location" class="form-control" placeholder="e.g. Lasalgaon, Nashik District, Maharashtra" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="signup-fpo-name">FPO / Cooperative Name (Optional)</label>
+              <input type="text" id="signup-fpo-name" class="form-control" placeholder="e.g. Sahyadri Agro Farmers FPO" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="signup-farm-size">Farm Land Size</label>
+              <select id="signup-farm-size" class="form-control">
+                <option value="1-3 Acres">1 - 3 Acres (Smallholder)</option>
+                <option value="3-10 Acres" selected>3 - 10 Acres (Medium)</option>
+                <option value="10+ Acres">10+ Acres (Large)</option>
+                <option value="FPO Collective">FPO / Collective Hub</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Buyer Specific Fields -->
+        <div id="buyer-fields-group" style="display: none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="signup-buyer-type">Buyer Type</label>
+              <select id="signup-buyer-type" class="form-control">
+                <option value="Household Consumer" selected>Household Consumer</option>
+                <option value="Apartment Society / Community">Apartment Society / Community</option>
+                <option value="Restaurant / Hotel / Catering">Restaurant / Hotel / Catering (Bulk)</option>
+                <option value="Vegetable Retailer / Kirana">Vegetable Retailer / Kirana</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="signup-buyer-city">Delivery City & Pincode</label>
+              <input type="text" id="signup-buyer-city" class="form-control" placeholder="e.g. Pune, 411045" />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;" id="btn-submit-signup">
+          Create Farmer Account
+        </button>
+      </form>
+
+      <!-- Quick 1-Click Demo Buttons for Hackathon Judges -->
+      <div class="demo-account-pills">
+        <p>⚡ Quick Demo Access (1-Click Login):</p>
+        <div class="demo-btn-group">
+          <button type="button" class="demo-bar-btn" id="quick-login-farmer" style="color: #212121; background: #E8F5E9; border-color: #C8E6C9;">
+            👨‍🌾 Demo Farmer (Ramesh Patil)
+          </button>
+          <button type="button" class="demo-bar-btn" id="quick-login-buyer" style="color: #212121; background: #FFF8E1; border-color: #FFE082;">
+            🛒 Demo Buyer (Ananya Sharma)
+          </button>
+          <button type="button" class="demo-bar-btn" id="quick-login-bulk" style="color: #212121; background: #E1F5FE; border-color: #B3E5FC;">
+            🏢 Demo Bulk Buyer (Hotel Rasoi)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { loginUser, registerUser } from './api.js';
+    import { setCurrentUser, showToast, renderDemoBar } from './app.js';
+
+    renderDemoBar('login');
+
+    let selectedRole = 'farmer';
+    let currentMode = 'login'; // 'login' | 'signup'
+
+    // Check URL parameters (e.g. login.html?role=buyer)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('role') === 'buyer') {
+      selectRole('buyer');
+    }
+
+    const farmerTab = document.getElementById('role-tab-farmer');
+    const buyerTab = document.getElementById('role-tab-buyer');
+    const loginModeBtn = document.getElementById('mode-btn-login');
+    const signupModeBtn = document.getElementById('mode-btn-signup');
+
+    const formLogin = document.getElementById('form-login');
+    const formSignup = document.getElementById('form-signup');
+    const farmerFields = document.getElementById('farmer-fields-group');
+    const buyerFields = document.getElementById('buyer-fields-group');
+    const btnSubmitLogin = document.getElementById('btn-submit-login');
+    const btnSubmitSignup = document.getElementById('btn-submit-signup');
+
+    function selectRole(role) {
+      selectedRole = role;
+      if (role === 'farmer') {
+        farmerTab.classList.add('active');
+        buyerTab.classList.remove('active');
+        farmerFields.style.display = 'block';
+        buyerFields.style.display = 'none';
+        btnSubmitLogin.textContent = 'Sign In as Farmer / FPO';
+        btnSubmitSignup.textContent = 'Create Farmer Account';
+        document.getElementById('login-username').placeholder = 'ramesh.patil@kisanconnect.in';
+      } else {
+        buyerTab.classList.add('active');
+        farmerTab.classList.remove('active');
+        farmerFields.style.display = 'none';
+        buyerFields.style.display = 'block';
+        btnSubmitLogin.textContent = 'Sign In as Consumer / Buyer';
+        btnSubmitSignup.textContent = 'Create Buyer Account';
+        document.getElementById('login-username').placeholder = 'ananya.sharma@gmail.com';
+      }
+    }
+
+    farmerTab.addEventListener('click', () => selectRole('farmer'));
+    buyerTab.addEventListener('click', () => selectRole('buyer'));
+
+    loginModeBtn.addEventListener('click', () => {
+      currentMode = 'login';
+      loginModeBtn.classList.add('active');
+      signupModeBtn.classList.remove('active');
+      formLogin.style.display = 'block';
+      formSignup.style.display = 'none';
+    });
+
+    signupModeBtn.addEventListener('click', () => {
+      currentMode = 'signup';
+      signupModeBtn.classList.add('active');
+      loginModeBtn.classList.remove('active');
+      formLogin.style.display = 'none';
+      formSignup.style.display = 'block';
+    });
+
+    // Handle Login Submit
+    formLogin.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      btnSubmitLogin.disabled = true;
+      btnSubmitLogin.textContent = 'Authenticating...';
+
+      try {
+        const res = await loginUser(username, password, selectedRole);
+        setCurrentUser(res.user);
+        showToast(`Welcome back, ${res.user.name}! Redirecting...`, 'success');
+        setTimeout(() => {
+          if (selectedRole === 'farmer') {
+            window.location.href = 'farmer-dashboard.html';
+          } else {
+            window.location.href = 'buyer-dashboard.html';
+          }
+        }, 600);
+      } catch (err) {
+        showToast('Login failed. Please check credentials.', 'danger');
+        btnSubmitLogin.disabled = false;
+        btnSubmitLogin.textContent = `Sign In as ${selectedRole === 'farmer' ? 'Farmer' : 'Buyer'}`;
+      }
+    });
+
+    // Handle Signup Submit
+    formSignup.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value.trim();
+      const phone = document.getElementById('signup-phone').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+
+      let location = 'Pune, Maharashtra';
+      let extra = {};
+
+      if (selectedRole === 'farmer') {
+        location = document.getElementById('signup-farm-location').value.trim() || 'Lasalgaon, Nashik, Maharashtra';
+        extra.fpo = document.getElementById('signup-fpo-name').value.trim() || 'Sahyadri Agro FPO';
+      } else {
+        location = document.getElementById('signup-buyer-city').value.trim() || 'Pune, Maharashtra';
+        extra.buyerType = document.getElementById('signup-buyer-type').value;
+      }
+
+      btnSubmitSignup.disabled = true;
+      btnSubmitSignup.textContent = 'Creating Account...';
+
+      try {
+        const payload = {
+          name,
+          phone,
+          email,
+          role: selectedRole,
+          location,
+          ...extra
+        };
+
+        const res = await registerUser(payload);
+        setCurrentUser(res.user);
+        showToast('Account created successfully! Redirecting...', 'success');
+        setTimeout(() => {
+          if (selectedRole === 'farmer') {
+            window.location.href = 'farmer-dashboard.html';
+          } else {
+            window.location.href = 'buyer-dashboard.html';
+          }
+        }, 600);
+      } catch (err) {
+        showToast('Signup error occurred.', 'danger');
+        btnSubmitSignup.disabled = false;
+        btnSubmitSignup.textContent = 'Create Account';
+      }
+    });
+
+    // Quick 1-Click Demo Logins
+    document.getElementById('quick-login-farmer').addEventListener('click', () => {
+      setCurrentUser({
+        id: "farmer-1",
+        name: "Ramesh Patil",
+        email: "ramesh.patil@kisanconnect.in",
+        role: "farmer",
+        location: "Lasalgaon, Nashik, Maharashtra",
+        fpo: "Sahyadri Agro Farmers Co-op"
+      });
+      showToast('Logged in as Farmer Ramesh Patil! Redirecting...', 'success');
+      setTimeout(() => window.location.href = 'farmer-dashboard.html', 400);
+    });
+
+    document.getElementById('quick-login-buyer').addEventListener('click', () => {
+      setCurrentUser({
+        id: "buyer-1",
+        name: "Ananya Sharma",
+        email: "ananya.sharma@gmail.com",
+        role: "buyer",
+        city: "Pune, Maharashtra",
+        address: "Flat 402, Green Meadows, Baner, Pune - 411045",
+        buyerType: "Household Consumer"
+      });
+      showToast('Logged in as Buyer Ananya Sharma! Redirecting...', 'success');
+      setTimeout(() => window.location.href = 'buyer-dashboard.html', 400);
+    });
+
+    document.getElementById('quick-login-bulk').addEventListener('click', () => {
+      setCurrentUser({
+        id: "buyer-2",
+        name: "Hotel Rasoi (Bulk Buyer)",
+        email: "purchase@hotelrasoi.com",
+        role: "buyer",
+        city: "Mumbai, Maharashtra",
+        address: "Shop 12, Commercial Complex, Dadar West, Mumbai - 400028",
+        buyerType: "Restaurant & Bulk Procurement"
+      });
+      showToast('Logged in as Hotel Rasoi Bulk Buyer! Redirecting...', 'success');
+      setTimeout(() => window.location.href = 'buyer-dashboard.html', 400);
+    });
+  </script>
+</body>
+</html>
