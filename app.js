@@ -1,6 +1,7 @@
 /**
  * ==============================================================================
  * KisanConnect - Shared Application Controller & Utilities
+ * Modern E-Commerce Platform (Amazon / Flipkart Style)
  * ==============================================================================
  */
 
@@ -12,15 +13,20 @@ export function getCurrentUser() {
   } catch (e) {
     console.error('Error reading auth user:', e);
   }
-  // Default fallback user for convenient exploration
-  return {
-    id: "farmer-1",
-    name: "Ramesh Patil",
-    email: "ramesh.patil@kisanconnect.in",
-    role: "farmer",
-    location: "Lasalgaon, Nashik, Maharashtra",
-    fpo: "Sahyadri Agro Farmers Co-op"
+  // Default customer session (can also be switched to farmer anytime)
+  const defaultCustomer = {
+    id: "buyer-1",
+    name: "Ananya Sharma",
+    email: "ananya.sharma@gmail.com",
+    role: "buyer",
+    phone: "+91 98201 44521",
+    city: "Pune, Maharashtra",
+    address: "Flat 402, Green Meadows, Baner, Pune - 411045",
+    pincode: "411045",
+    buyerType: "Household & Community Buyer"
   };
+  localStorage.setItem('kisan_auth_user', JSON.stringify(defaultCustomer));
+  return defaultCustomer;
 }
 
 export function setCurrentUser(user) {
@@ -31,9 +37,43 @@ export function setCurrentUser(user) {
   }
 }
 
-export function logout() {
+export function isFarmer() {
+  const user = getCurrentUser();
+  return user && user.role === 'farmer';
+}
+
+export function isBuyer() {
+  const user = getCurrentUser();
+  return user && user.role === 'buyer';
+}
+
+export function logout(redirect = 'index.html') {
   localStorage.removeItem('kisan_auth_user');
-  window.location.href = 'login.html';
+  window.location.href = redirect;
+}
+
+// Delivery Location Management (Amazon/Flipkart "Deliver to..." feature)
+export function getDeliveryLocation() {
+  try {
+    const raw = localStorage.getItem('kisan_delivery_location');
+    if (raw) return JSON.parse(raw);
+  } catch (e) {
+    console.error('Error reading location:', e);
+  }
+  return {
+    city: "Pune",
+    area: "Baner",
+    pincode: "411045",
+    formatted: "Baner, Pune 411045"
+  };
+}
+
+export function setDeliveryLocation(loc) {
+  try {
+    localStorage.setItem('kisan_delivery_location', JSON.stringify(loc));
+  } catch (e) {
+    console.error('Error writing location:', e);
+  }
 }
 
 // Format Indian Rupee currency (e.g. ₹1,48,500)
@@ -66,6 +106,13 @@ export function showToast(message, type = 'success') {
         <circle cx="12" cy="12" r="10"></circle>
         <line x1="15" y1="9" x2="9" y2="15"></line>
         <line x1="9" y1="9" x2="15" y2="15"></line>
+      </svg>`;
+  } else if (type === 'info') {
+    iconSvg = `
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
       </svg>`;
   }
 
@@ -111,68 +158,15 @@ export function updateCartBadges() {
     b.textContent = totalCount;
     b.style.display = totalCount > 0 ? 'flex' : 'none';
   });
+
+  const cartSubtotalEl = document.getElementById('nav-cart-subtotal');
+  if (cartSubtotalEl) {
+    const subtotal = cart.reduce((sum, item) => sum + (item.pricePerKg * (item.qtyKg || 1)), 0);
+    cartSubtotalEl.textContent = formatINR(subtotal);
+  }
 }
 
-// Quick Demo Switcher Bar injected at the top of every screen
-export function renderDemoBar(activePage = '') {
-  const existing = document.getElementById('demo-quick-bar');
-  if (existing) return;
-
-  const bar = document.createElement('div');
-  bar.id = 'demo-quick-bar';
-  bar.className = 'demo-bar';
-
-  bar.innerHTML = `
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span class="demo-bar-badge">SIH26033 Prototype</span>
-      <span style="opacity: 0.9;">KisanConnect: Farm to Consumer Marketplace</span>
-    </div>
-    <div class="demo-bar-links">
-      <span style="font-size: 0.78rem; opacity: 0.8; margin-right: 4px;">Quick Role Jump:</span>
-      <a href="index.html" class="demo-bar-btn ${activePage === 'landing' ? 'active' : ''}">
-        🌿 Landing Page
-      </a>
-      <a href="farmer-dashboard.html" class="demo-bar-btn ${activePage === 'farmer' ? 'active' : ''}" id="demo-switch-farmer">
-        👨‍🌾 Farmer Dashboard
-      </a>
-      <a href="buyer-dashboard.html" class="demo-bar-btn ${activePage === 'buyer' ? 'active' : ''}" id="demo-switch-buyer">
-        🛒 Buyer Marketplace
-      </a>
-      <a href="login.html" class="demo-bar-btn ${activePage === 'login' ? 'active' : ''}">
-        🔑 Auth / Roles
-      </a>
-    </div>
-  `;
-
-  document.body.insertBefore(bar, document.body.firstChild);
-
-  // Hook 1-click switch handlers
-  const farmerBtn = document.getElementById('demo-switch-farmer');
-  if (farmerBtn) {
-    farmerBtn.addEventListener('click', () => {
-      setCurrentUser({
-        id: "farmer-1",
-        name: "Ramesh Patil",
-        email: "ramesh.patil@kisanconnect.in",
-        role: "farmer",
-        location: "Lasalgaon, Nashik, Maharashtra",
-        fpo: "Sahyadri Agro Farmers Co-op"
-      });
-    });
-  }
-
-  const buyerBtn = document.getElementById('demo-switch-buyer');
-  if (buyerBtn) {
-    buyerBtn.addEventListener('click', () => {
-      setCurrentUser({
-        id: "buyer-1",
-        name: "Ananya Sharma",
-        email: "ananya.sharma@gmail.com",
-        role: "buyer",
-        city: "Pune, Maharashtra",
-        address: "Flat 402, Green Meadows, Baner, Pune - 411045",
-        buyerType: "Consumer & Bulk Group"
-      });
-    });
-  }
+// Backward compatibility stub for renderDemoBar so any leftover call doesn't throw
+export function renderDemoBar() {
+  // Demo bar removed as requested to provide authentic Amazon/Flipkart e-commerce experience
 }

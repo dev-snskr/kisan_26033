@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KisanConnect - Sign In / Register (SIH26033)</title>
+  <title>Sign In / Register - KisanConnect Marketplace</title>
   <meta name="description" content="Sign in or register as a Farmer/FPO Seller or Consumer/Bulk Buyer on KisanConnect." />
   <link rel="stylesheet" href="./style.css" />
 </head>
@@ -155,18 +155,18 @@
         </button>
       </form>
 
-      <!-- Quick 1-Click Demo Buttons for Hackathon Judges -->
+      <!-- Fast Test Accounts for Review -->
       <div class="demo-account-pills">
-        <p>⚡ Quick Demo Access (1-Click Login):</p>
+        <p style="font-weight: 600; color: #444;">⚡ Fast One-Click Test Accounts:</p>
         <div class="demo-btn-group">
-          <button type="button" class="demo-bar-btn" id="quick-login-farmer" style="color: #212121; background: #E8F5E9; border-color: #C8E6C9;">
-            👨‍🌾 Demo Farmer (Ramesh Patil)
+          <button type="button" class="btn btn-sm btn-outline" id="quick-login-farmer" style="color: #1B5E20; background: #E8F5E9; border-color: #A5D6A7;">
+            👨‍🌾 Seller Account (Ramesh Patil)
           </button>
-          <button type="button" class="demo-bar-btn" id="quick-login-buyer" style="color: #212121; background: #FFF8E1; border-color: #FFE082;">
-            🛒 Demo Buyer (Ananya Sharma)
+          <button type="button" class="btn btn-sm btn-outline" id="quick-login-buyer" style="color: #E65100; background: #FFF3E0; border-color: #FFCC80;">
+            🛒 Customer Account (Ananya Sharma)
           </button>
-          <button type="button" class="demo-bar-btn" id="quick-login-bulk" style="color: #212121; background: #E1F5FE; border-color: #B3E5FC;">
-            🏢 Demo Bulk Buyer (Hotel Rasoi)
+          <button type="button" class="btn btn-sm btn-outline" id="quick-login-bulk" style="color: #0277BD; background: #E1F5FE; border-color: #81D4FA;">
+            🏢 Bulk Buyer (Hotel Rasoi)
           </button>
         </div>
       </div>
@@ -176,8 +176,6 @@
   <script type="module">
     import { loginUser, registerUser } from './api.js';
     import { setCurrentUser, showToast, renderDemoBar } from './app.js';
-
-    renderDemoBar('login');
 
     let selectedRole = 'farmer';
     let currentMode = 'login'; // 'login' | 'signup'
@@ -207,16 +205,16 @@
         buyerTab.classList.remove('active');
         farmerFields.style.display = 'block';
         buyerFields.style.display = 'none';
-        btnSubmitLogin.textContent = 'Sign In as Farmer / FPO';
-        btnSubmitSignup.textContent = 'Create Farmer Account';
+        btnSubmitLogin.textContent = 'Sign In to Seller Central';
+        btnSubmitSignup.textContent = 'Register as Farmer / FPO';
         document.getElementById('login-username').placeholder = 'ramesh.patil@kisanconnect.in';
       } else {
         buyerTab.classList.add('active');
         farmerTab.classList.remove('active');
         farmerFields.style.display = 'none';
         buyerFields.style.display = 'block';
-        btnSubmitLogin.textContent = 'Sign In as Consumer / Buyer';
-        btnSubmitSignup.textContent = 'Create Buyer Account';
+        btnSubmitLogin.textContent = 'Sign In to Customer Account';
+        btnSubmitSignup.textContent = 'Create Customer Account';
         document.getElementById('login-username').placeholder = 'ananya.sharma@gmail.com';
       }
     }
@@ -257,9 +255,9 @@
           if (selectedRole === 'farmer') {
             window.location.href = 'farmer-dashboard.html';
           } else {
-            window.location.href = 'buyer-dashboard.html';
+            window.location.href = 'index.html';
           }
-        }, 600);
+        }, 500);
       } catch (err) {
         showToast('Login failed. Please check credentials.', 'danger');
         btnSubmitLogin.disabled = false;
@@ -306,9 +304,9 @@
           if (selectedRole === 'farmer') {
             window.location.href = 'farmer-dashboard.html';
           } else {
-            window.location.href = 'buyer-dashboard.html';
+            window.location.href = 'index.html';
           }
-        }, 600);
+        }, 500);
       } catch (err) {
         showToast('Signup error occurred.', 'danger');
         btnSubmitSignup.disabled = false;
@@ -326,8 +324,8 @@
         location: "Lasalgaon, Nashik, Maharashtra",
         fpo: "Sahyadri Agro Farmers Co-op"
       });
-      showToast('Logged in as Farmer Ramesh Patil! Redirecting...', 'success');
-      setTimeout(() => window.location.href = 'farmer-dashboard.html', 400);
+      showToast('Signed in to Seller Central as Ramesh Patil!', 'success');
+      setTimeout(() => window.location.href = 'farmer-dashboard.html', 300);
     });
 
     document.getElementById('quick-login-buyer').addEventListener('click', () => {
@@ -340,8 +338,8 @@
         address: "Flat 402, Green Meadows, Baner, Pune - 411045",
         buyerType: "Household Consumer"
       });
-      showToast('Logged in as Buyer Ananya Sharma! Redirecting...', 'success');
-      setTimeout(() => window.location.href = 'buyer-dashboard.html', 400);
+      showToast('Signed in as Ananya Sharma! Heading to Marketplace...', 'success');
+      setTimeout(() => window.location.href = 'index.html', 300);
     });
 
     document.getElementById('quick-login-bulk').addEventListener('click', () => {
@@ -354,8 +352,8 @@
         address: "Shop 12, Commercial Complex, Dadar West, Mumbai - 400028",
         buyerType: "Restaurant & Bulk Procurement"
       });
-      showToast('Logged in as Hotel Rasoi Bulk Buyer! Redirecting...', 'success');
-      setTimeout(() => window.location.href = 'buyer-dashboard.html', 400);
+      showToast('Signed in as Hotel Rasoi Bulk Buyer!', 'success');
+      setTimeout(() => window.location.href = 'index.html', 300);
     });
   </script>
 </body>

@@ -7,7 +7,7 @@
  */
 
 import { fetchProduce, createProduce, deleteProduce, updateProduceStock, fetchOrders, updateOrderStatus, fetchDemandForecast, fetchFarmerEarnings } from './api.js';
-import { getCurrentUser, formatINR, showToast, renderDemoBar, logout } from './app.js';
+import { getCurrentUser, setCurrentUser, formatINR, showToast, renderDemoBar, logout } from './app.js';
 
 let chartInstance = null;
 let currentForecastCrop = 'Tomatoes';
@@ -24,7 +24,13 @@ const PRESET_IMAGES = {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-  renderDemoBar('farmer');
+  // STRICT ROLE-BASED ACCESS CONTROL (RBAC) CHECK
+  const user = getCurrentUser();
+  if (!user || user.role !== 'farmer') {
+    renderAccessRestrictedScreen(user);
+    return;
+  }
+
   setupSidebarNavigation();
   setupUserHeader();
   setupAddProduceModal();
@@ -37,6 +43,73 @@ document.addEventListener('DOMContentLoaded', async () => {
   await renderDemandChart();
   await loadEarnings();
 });
+
+function renderAccessRestrictedScreen(user) {
+  const currentRole = user ? user.role : 'Guest';
+  const currentName = user ? user.name : 'Visitor';
+
+  document.body.innerHTML = `
+    <header class="amz-header">
+      <div class="amz-topbar">
+        <a href="index.html" class="amz-logo-wrap">
+          <span style="font-size: 1.6rem;">🌾</span>
+          <div>
+            <div class="amz-brand-title">Kisan<span>Connect</span></div>
+            <div class="amz-brand-sub">Seller Central</div>
+          </div>
+        </a>
+        <a href="index.html" class="btn btn-sm btn-outline-white" style="margin-left: auto;">
+          🛒 Back to Marketplace
+        </a>
+      </div>
+    </header>
+
+    <div class="seller-restricted-wrap">
+      <div class="seller-restricted-card">
+        <div class="seller-restricted-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h2 class="seller-restricted-title">Seller Central Access Restricted</h2>
+        <p class="seller-restricted-desc">
+          You are currently signed in as <strong>${currentName}</strong> (Role: <span class="badge badge-info" style="text-transform: capitalize;">${currentRole}</span>).<br><br>
+          KisanConnect Seller features (Crop inventory, Dispatch management, Cold-chain logistics, AI demand forecasting, and Mandi earnings audits) are <strong>accessible only to verified Farmers and FPO Cooperatives</strong>.
+        </p>
+        <div class="seller-restricted-actions">
+          <button class="btn btn-primary" id="btn-login-farmer-direct">
+            👨‍🌾 Log In as Farmer (Ramesh Patil)
+          </button>
+          <a href="login.html?role=farmer" class="btn btn-accent">
+            Register as New Farmer / FPO Seller
+          </a>
+          <a href="index.html" class="btn btn-outline">
+            🛒 Continue Shopping on KisanConnect Store
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('btn-login-farmer-direct')?.addEventListener('click', () => {
+    const farmerUser = {
+      id: "farmer-1",
+      name: "Ramesh Patil",
+      email: "ramesh.patil@kisanconnect.in",
+      role: "farmer",
+      phone: "+91 98220 54321",
+      location: "Lasalgaon, Nashik, Maharashtra",
+      fpo: "Sahyadri Agro Farmers Co-op",
+      farmSizeAcres: 8.5
+    };
+    setCurrentUser(farmerUser);
+    showToast('Switched account to Farmer: Ramesh Patil', 'success');
+    setTimeout(() => {
+      window.location.reload();
+    }, 400);
+  });
+}
 
 function setupUserHeader() {
   const user = getCurrentUser();

@@ -3,365 +3,602 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KisanConnect - Farm to Table, No Middlemen</title>
-  <meta name="description" content="Direct Farmer-to-Consumer & Bulk Buyer Marketplace solving SIH26033. Direct farm gate pricing, AI demand forecasting, and logistics tracking." />
-  <meta property="og:title" content="KisanConnect - Farm to Table, No Middlemen" />
-  <meta property="og:description" content="Direct Farmer-to-Consumer & Bulk Buyer Marketplace solving SIH26033." />
+  <title>KisanConnect - Fresh Farm-to-Table Marketplace</title>
+  <meta name="description" content="Direct Farmer-to-Consumer & Bulk Buyer E-Commerce Marketplace. Buy fresh vegetables, fruits, grains and pulses direct from Indian farmers with zero middlemen markups." />
+  <meta property="og:title" content="KisanConnect - Fresh Farm-to-Table Marketplace" />
+  <meta property="og:description" content="Shop fresh farm produce directly from verified farmers and FPOs. Zero middlemen, cold-chain delivery." />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
-  <!-- Site Header / Navbar -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="brand-logo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
-        </svg>
+  <!-- =========================================================================
+       AMAZON / FLIPKART MASTER HEADER
+       ========================================================================= -->
+  <header class="amz-header">
+    <div class="amz-topbar">
+      <!-- Logo -->
+      <a href="index.html" class="amz-logo-wrap" id="logo-home-btn">
+        <span style="font-size: 1.8rem; line-height: 1;">🌾</span>
         <div>
-          <span>KisanConnect</span>
-          <span class="brand-tagline">Farm to Table, No Middlemen</span>
+          <div class="amz-brand-title">Kisan<span>Connect</span></div>
+          <div class="amz-brand-sub">Fresh Farm Direct</div>
         </div>
       </a>
 
-      <nav>
-        <ul class="nav-links">
-          <li><a href="#problem-solution" class="nav-link">Why KisanConnect</a></li>
-          <li><a href="#mandi-calculator" class="nav-link">Price Calculator</a></li>
-          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
-          <li>
-            <a href="buyer-dashboard.html" class="btn btn-sm btn-outline">
-              🛒 Market
-            </a>
-          </li>
-          <li>
-            <a href="login.html" class="btn btn-sm btn-primary">
-              Sign In / Register
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <!-- Location Pin (Deliver to...) -->
+      <button type="button" class="amz-location-btn" id="nav-location-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF9900" stroke-width="2.2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <div>
+          <span class="amz-loc-line1" id="nav-user-greeting">Deliver to Ananya</span>
+          <span class="amz-loc-line2" id="nav-user-location">Baner, Pune 411045</span>
+        </div>
+      </button>
+
+      <!-- Search Box with Category Selector -->
+      <div class="amz-search-box">
+        <select class="amz-search-category" id="search-category-select">
+          <option value="All">All Categories</option>
+          <option value="Vegetables">Vegetables</option>
+          <option value="Fruits">Fruits</option>
+          <option value="Grains">Grains & Atta</option>
+          <option value="Pulses">Pulses & Dal</option>
+          <option value="Organic">Organic Specials</option>
+        </select>
+        <input type="text" id="global-search-input" class="amz-search-input" placeholder="Search fresh tomatoes, onions, Sharbati wheat, Nashik grapes..." />
+        <button type="button" class="amz-search-btn" id="btn-search-trigger" title="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Nav Actions (Right) -->
+      <div class="amz-nav-actions">
+        <!-- Language / Country -->
+        <div class="amz-nav-link" style="padding: 4px 6px;">
+          <span class="amz-link-line1" style="display: flex; align-items: center; gap: 4px;">
+            <span style="font-size: 1.1rem;">🇮🇳</span> EN
+          </span>
+          <span class="amz-link-line2" style="font-size: 0.76rem;">₹ INR</span>
+        </div>
+
+        <!-- Account / Sign In Dropdown -->
+        <div class="amz-nav-link" id="nav-account-btn">
+          <span class="amz-link-line1" id="nav-account-label">Hello, Sign In</span>
+          <span class="amz-link-line2">
+            <span id="nav-account-name">Ananya Sharma</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 10l5 5 5-5z"/>
+            </svg>
+          </span>
+        </div>
+
+        <!-- Returns & Orders -->
+        <div class="amz-nav-link" id="nav-orders-tab-btn" title="View Orders & Logistics Tracking">
+          <span class="amz-link-line1">Returns</span>
+          <span class="amz-link-line2">& Orders</span>
+        </div>
+
+        <!-- Role-Based Seller Central Button -->
+        <div id="nav-seller-access-container">
+          <!-- Dynamically populated: "👨‍🌾 Seller Central" if farmer, "Become a Seller" if customer/guest -->
+          <a href="farmer-dashboard.html" class="amz-seller-btn" id="nav-seller-btn">
+            <span>👨‍🌾</span>
+            <span id="nav-seller-btn-text">Sell on KisanConnect</span>
+          </a>
+        </div>
+
+        <!-- Cart with Badge -->
+        <button type="button" class="amz-cart-btn" id="nav-cart-btn" title="View Shopping Cart">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="amz-cart-count cart-badge" style="display: none;">0</span>
+          <div style="display: flex; flex-direction: column; text-align: left;">
+            <span style="font-size: 0.72rem; color: #CCC;">Cart</span>
+            <span style="font-size: 0.85rem; font-weight: 700; color: #FF9900;" id="nav-cart-subtotal">₹0</span>
+          </div>
+        </button>
+      </div>
     </div>
+
+    <!-- Secondary Sub-Navigation (Amazon Style #232f3e) -->
+    <nav class="amz-subnav">
+      <div class="amz-subnav-item active" id="subnav-all-btn" data-category="All">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <span>All Produce</span>
+      </div>
+      <div class="amz-subnav-item" data-category="Vegetables">Fresh Vegetables</div>
+      <div class="amz-subnav-item" data-category="Fruits">Farm Fruits</div>
+      <div class="amz-subnav-item" data-category="Grains">Atta, Rice & Grains</div>
+      <div class="amz-subnav-item" data-category="Pulses">Organic Pulses & Dal</div>
+      <div class="amz-subnav-item highlight" id="subnav-deals-btn">⚡ Deals of the Day</div>
+      <div class="amz-subnav-item highlight" id="subnav-bulk-toggle-btn">📦 Wholesale Bulk (10kg+)</div>
+      <a href="farmer-dashboard.html" class="amz-subnav-item" style="color: #A5D6A7;">👨‍🌾 Farmer Seller Hub</a>
+      <div class="amz-subnav-item" id="subnav-help-btn" style="margin-left: auto;">24x7 Mandi Support</div>
+    </nav>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="container hero-grid">
-      <div>
-        <span class="section-tag">Smart India Hackathon • SIH26033</span>
-        <h1 class="hero-title">
-          Farm to Table, <span>No Middlemen.</span>
-        </h1>
-        <p class="hero-subtitle">
-          Directly connect Indian farmers & FPOs with consumers and bulk buyers. Eliminate commission agents, forecast crop demand with AI, and track fresh produce from soil to doorstep.
-        </p>
+  <!-- =========================================================================
+       MAIN STORE CONTAINER
+       ========================================================================= -->
+  <main class="container" style="padding-top: 16px; padding-bottom: 60px;">
 
-        <div class="hero-ctas">
-          <a href="login.html?role=farmer" class="btn btn-lg btn-primary">
-            👨‍🌾 Join as Farmer / FPO
-          </a>
-          <a href="buyer-dashboard.html" class="btn btn-lg btn-accent">
-            🛒 Shop Fresh as Buyer
-          </a>
-        </div>
+    <!-- =========================================================================
+         VIEW 1: STOREFRONT & PRODUCTS (Active by default)
+         ========================================================================= -->
+    <div id="view-marketplace" class="store-view active">
 
-        <div class="hero-badges">
-          <div class="hero-badge-item">
-            <svg class="hero-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-            </svg>
-            <span>+22% Farmer Earnings</span>
-          </div>
-          <div class="hero-badge-item">
-            <svg class="hero-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            <span>Zero Middleman Cut</span>
-          </div>
-          <div class="hero-badge-item">
-            <svg class="hero-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-            </svg>
-            <span>AI Demand Forecast</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Role Selector Card -->
-      <div class="hero-card-role-box">
-        <h3 style="font-size: 1.25rem;">Choose Your Experience</h3>
-        <p style="font-size: 0.88rem; color: #666; margin-top: -12px;">Test the prototype as either a producer or a buyer:</p>
-
-        <a href="farmer-dashboard.html" class="role-choice-card">
-          <div class="role-choice-icon">👨‍🌾</div>
-          <div class="role-choice-info">
-            <h4>Farmer / FPO (Seller) Portal</h4>
-            <p>List produce, manage dispatch orders, view AI demand predictions & earnings comparison.</p>
-          </div>
-          <span style="font-weight: 700; color: #2E7D32;">→</span>
-        </a>
-
-        <a href="buyer-dashboard.html" class="role-choice-card">
-          <div class="role-choice-icon">🛒</div>
-          <div class="role-choice-info">
-            <h4>Consumer & Bulk Buyer Store</h4>
-            <p>Browse fresh farm-gate crops, bulk tiers, cart checkout, and real-time package tracker.</p>
-          </div>
-          <span style="font-weight: 700; color: #2E7D32;">→</span>
-        </a>
-
-        <div style="background: #F1F8E9; border-radius: 8px; padding: 12px; font-size: 0.82rem; color: #1B5E20; text-align: center;">
-          💡 <strong>Full Reactivity:</strong> Adding produce as a farmer instantly updates the buyer marketplace!
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Problem Statement & Solution Breakdown (SIH26033) -->
-  <section class="sih-section" id="problem-solution">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">SIH Problem Statement SIH26033</span>
-        <h2 class="section-title">Eliminating the Multi-Tier Middleman Drain</h2>
-        <p class="section-desc">
-          In India's conventional agriculture supply chain, a crop passes through 4 to 6 intermediaries before reaching the consumer. Farmers receive less than 30% of the retail price while consumers pay exorbitant markups.
-        </p>
-      </div>
-
-      <div class="comparison-grid">
-        <!-- The Problem -->
-        <div class="comparison-card bad">
-          <h3 class="comparison-card-title" style="color: #C62828;">
-            <span>❌ Traditional Mandi Chain</span>
-          </h3>
-          <ul class="comparison-list">
-            <li>
-              <span>🔴</span>
-              <div><strong>4-6 Layers of Intermediaries:</strong> Village aggregators, local commission agents (arhatiyas), wholesale mandis, transport brokers, and city retailers each take a cut.</div>
-            </li>
-            <li>
-              <span>🔴</span>
-              <div><strong>Exploitative Pricing & Distress Sales:</strong> Farmers are forced to accept whatever the local cartel quotes on harvest day, often below production costs.</div>
-            </li>
-            <li>
-              <span>🔴</span>
-              <div><strong>No Demand Visibility:</strong> Farmers plant crops blindly without market intelligence, leading to massive gluts, rotting produce, and crashing prices.</div>
-            </li>
-            <li>
-              <span>🔴</span>
-              <div><strong>Consumer Pays +60% Extra:</strong> By the time produce reaches dining tables, retail prices are inflated and freshness is degraded by 3-5 days.</div>
-            </li>
-          </ul>
-        </div>
-
-        <!-- The Solution -->
-        <div class="comparison-card good">
-          <h3 class="comparison-card-title" style="color: #2E7D32;">
-            <span>✅ The KisanConnect Direct Way</span>
-          </h3>
-          <ul class="comparison-list">
-            <li>
-              <span>🟢</span>
-              <div><strong>Direct Farmer-to-Buyer Contract:</strong> Zero middleman commissions. Farmers list directly at fair farm-gate prices.</div>
-            </li>
-            <li>
-              <span>🟢</span>
-              <div><strong>~22% Higher Farm Incomes:</strong> Farmers retain the bulk of value addition and receive transparent digital settlements.</div>
-            </li>
-            <li>
-              <span>🟢</span>
-              <div><strong>AI-Driven Demand Forecasting:</strong> Pre-harvest predictive analytics forecast 7-14 day urban demand so farmers plant and harvest profitably.</div>
-            </li>
-            <li>
-              <span>🟢</span>
-              <div><strong>Cold-Chain Logistics & Bulk Tiers:</strong> Direct farm-gate pickup with clear status tracking for household consumers, restaurants, and apartments.</div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Interactive Mandi vs KisanConnect Price Calculator -->
-  <section class="sih-section" id="mandi-calculator" style="background: #F4F3EF;">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Interactive Demonstration</span>
-        <h2 class="section-title">Mandi vs KisanConnect Earnings Calculator</h2>
-        <p class="section-desc">See the mathematical impact of removing middlemen commissions on typical Indian crops.</p>
-      </div>
-
-      <div class="calc-card">
-        <div class="calc-grid">
+      <!-- Amazon / Flipkart Hero Banner Carousel -->
+      <section class="amz-hero-banner" id="hero-banner">
+        <div class="amz-hero-content">
           <div>
-            <div class="form-group">
-              <label class="form-label" for="calc-crop">Select Crop / Produce</label>
-              <select id="calc-crop" class="form-control">
-                <option value="tomato" data-mandi="26" data-direct="34" data-retail="48">Desi Tomatoes (per kg)</option>
-                <option value="onion" data-mandi="20" data-direct="28" data-retail="38">Nasik Red Onions (per kg)</option>
-                <option value="potato" data-mandi="16" data-direct="22" data-retail="32">Pahadi Potatoes (per kg)</option>
-                <option value="wheat" data-mandi="34" data-direct="44" data-retail="60">Sharbati Wheat (per kg)</option>
-                <option value="orange" data-mandi="45" data-direct="62" data-retail="85">Nagpur Oranges (per kg)</option>
+            <span class="amz-hero-badge">Direct From Indian Soil • Zero Middlemen</span>
+            <h1 class="amz-hero-title">
+              Farm Fresh To Your Table, <span>Direct From Farmers.</span>
+            </h1>
+            <p class="amz-hero-desc">
+              Cut out commission agents & retail inflations. Harvested at dawn from Nashik, Sehore, and Vidarbha farms, temperature-controlled, and delivered directly to your doorstep.
+            </p>
+            <div class="amz-hero-ctas">
+              <button type="button" class="btn btn-accent btn-lg" id="btn-hero-shop-deals">
+                🛒 Shop Today's Harvest Deals
+              </button>
+              <button type="button" class="btn btn-outline-white btn-lg" id="btn-hero-toggle-bulk">
+                📦 Activate Wholesale Bulk Mode
+              </button>
+            </div>
+          </div>
+          <div style="text-align: center;">
+            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=700&auto=format&fit=crop&q=80" alt="Fresh Farm Produce" style="max-width: 100%; height: 260px; object-fit: cover; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.2);" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Category Circle Tiles (Flipkart Grocery style) -->
+      <section class="amz-category-strip">
+        <div class="amz-cat-item active" data-category="All">
+          <div class="amz-cat-circle">🧺</div>
+          <span class="amz-cat-title">All Fresh</span>
+        </div>
+        <div class="amz-cat-item" data-category="Vegetables">
+          <div class="amz-cat-circle">🍅</div>
+          <span class="amz-cat-title">Vegetables</span>
+        </div>
+        <div class="amz-cat-item" data-category="Fruits">
+          <div class="amz-cat-circle">🍊</div>
+          <span class="amz-cat-title">Farm Fruits</span>
+        </div>
+        <div class="amz-cat-item" data-category="Grains">
+          <div class="amz-cat-circle">🌾</div>
+          <span class="amz-cat-title">Grains & Atta</span>
+        </div>
+        <div class="amz-cat-item" data-category="Pulses">
+          <div class="amz-cat-circle">🥣</div>
+          <span class="amz-cat-title">Pulses & Dal</span>
+        </div>
+        <div class="amz-cat-item" data-category="Dairy">
+          <div class="amz-cat-circle">🥛</div>
+          <span class="amz-cat-title">Dairy & Ghee</span>
+        </div>
+        <div class="amz-cat-item" data-category="Spices">
+          <div class="amz-cat-circle">🌶️</div>
+          <span class="amz-cat-title">Farm Spices</span>
+        </div>
+      </section>
+
+      <!-- Trust Pillars Strip -->
+      <section class="amz-trust-strip">
+        <div class="amz-trust-card">
+          <div class="amz-trust-icon">🚜</div>
+          <div class="amz-trust-text">
+            <h5>Direct Farm Gate</h5>
+            <p>0% Adatya commission cuts, 100% fair pricing to farmers</p>
+          </div>
+        </div>
+        <div class="amz-trust-card">
+          <div class="amz-trust-icon">⚡</div>
+          <div class="amz-trust-text">
+            <h5>12-Hour Harvested</h5>
+            <p>Plucked at sunrise, delivered crisp & nutrient rich</p>
+          </div>
+        </div>
+        <div class="amz-trust-card">
+          <div class="amz-trust-icon">❄️</div>
+          <div class="amz-trust-text">
+            <h5>Cold-Chain Insulated</h5>
+            <p>Refrigerated rural freight keeps produce bakery fresh</p>
+          </div>
+        </div>
+        <div class="amz-trust-card">
+          <div class="amz-trust-icon">💳</div>
+          <div class="amz-trust-text">
+            <h5>Direct Farmer UPI</h5>
+            <p>Every rupee settles straight into the grower's bank</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Wholesale / Bulk Mode Banner -->
+      <div class="amz-bulk-strip" id="bulk-mode-banner">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.8rem;">📦</span>
+          <div>
+            <strong style="color: #795548; font-size: 0.95rem;">Wholesale & Community Bulk Procurement Mode</strong>
+            <p style="font-size: 0.8rem; color: #5D4037; margin: 0;">Special discounts (8% - 22% OFF) for 10kg+, 50kg+, and 100kg+ orders for Restaurants, Kiranas & Societies.</p>
+          </div>
+        </div>
+        <div class="amz-bulk-switch-wrap">
+          <label class="switch" style="position: relative; display: inline-block; width: 48px; height: 26px;">
+            <input type="checkbox" id="bulk-mode-checkbox" style="opacity: 0; width: 0; height: 0;" />
+            <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #CCC; transition: .3s; border-radius: 34px;"></span>
+          </label>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #2E7D32;" id="bulk-mode-status-text">Wholesale OFF</span>
+        </div>
+      </div>
+
+      <!-- Main Marketplace Layout (Sidebar + Product Catalog) -->
+      <div class="marketplace-layout">
+        
+        <!-- Filter Sidebar (Amazon style) -->
+        <aside class="filter-sidebar">
+          <div class="filter-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h4 style="font-size: 1.1rem; font-weight: 700;">Filters</h4>
+            <button type="button" class="btn-text" id="btn-reset-filters" style="font-size: 0.82rem; color: #007185; cursor: pointer; border: none; background: none;">Clear all</button>
+          </div>
+
+          <!-- Price Filter -->
+          <div class="filter-group">
+            <h5 class="filter-title">Price Range</h5>
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px; font-weight: 600;">
+              <span>₹10</span>
+              <span id="price-slider-val">₹250/kg</span>
+            </div>
+            <input type="range" id="price-range-slider" min="10" max="250" value="250" step="5" style="width: 100%; accent-color: #2E7D32;" />
+          </div>
+
+          <!-- Organic Certified -->
+          <div class="filter-group">
+            <h5 class="filter-title">Certifications</h5>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
+              <input type="checkbox" id="filter-organic" style="accent-color: #2E7D32;" />
+              <span>🌱 100% Certified Organic</span>
+            </label>
+          </div>
+
+          <!-- Farm Origin / State -->
+          <div class="filter-group">
+            <h5 class="filter-title">Farm Origin Hub</h5>
+            <select id="filter-state" class="form-control" style="font-size: 0.85rem; padding: 6px 10px;">
+              <option value="All">All Agricultural Clusters</option>
+              <option value="Nashik">Nashik Cluster (Maharashtra)</option>
+              <option value="Madhya Pradesh">Malwa Plateau (Madhya Pradesh)</option>
+              <option value="Nagpur">Vidarbha Citrus Belt (Nagpur)</option>
+              <option value="Pune">Western Ghats (Pune/Satara)</option>
+            </select>
+          </div>
+
+          <!-- Customer Ratings -->
+          <div class="filter-group">
+            <h5 class="filter-title">Customer Reviews</h5>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer; margin-bottom: 6px;">
+              <input type="radio" name="filter-rating" value="4" style="accent-color: #2E7D32;" />
+              <span class="amz-stars">★★★★☆</span> <span>4★ & above</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; cursor: pointer;">
+              <input type="radio" name="filter-rating" value="0" checked style="accent-color: #2E7D32;" />
+              <span>All ratings</span>
+            </label>
+          </div>
+
+          <!-- Direct Mandi Guarantee -->
+          <div style="background: #F1F8E9; border-radius: 8px; padding: 12px; margin-top: 20px; font-size: 0.8rem; color: #2E7D32; line-height: 1.4;">
+            <strong>🌿 Zero Middleman Guarantee</strong><br>
+            Every product displays the direct farm-gate price compared against regional Mandi retail. Your order saves you ~25% and gives the farmer +22% extra profit!
+          </div>
+        </aside>
+
+        <!-- Products Catalog Grid -->
+        <section class="products-catalog-section">
+          <!-- Catalog Header Bar -->
+          <div class="catalog-toolbar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <span style="font-weight: 700; font-size: 1.05rem;" id="catalog-count-text">Showing fresh farm produce...</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <label for="sort-select" style="font-size: 0.85rem; color: #555;">Sort by:</label>
+              <select id="sort-select" class="form-control" style="width: auto; padding: 4px 12px; font-size: 0.85rem;">
+                <option value="featured">Featured / Best Value</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Highest Customer Rating</option>
               </select>
             </div>
+          </div>
 
-            <div class="form-group">
-              <label class="form-label" for="calc-qty">Harvest Quantity (Quintals or Kg)</label>
-              <div style="display: flex; gap: 12px;">
-                <input type="number" id="calc-qty" class="form-control" value="500" min="10" step="50" />
-                <span style="display: flex; align-items: center; font-weight: 700; color: #555;">KG</span>
-              </div>
+          <!-- Product Cards Grid -->
+          <div class="products-grid" id="products-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;">
+            <!-- Rendered by buyer.js -->
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         VIEW 2: BUYER ORDERS & LIVE LOGISTICS TRACKER
+         ========================================================================= -->
+    <div id="view-orders" class="store-view" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <h2 style="font-size: 1.6rem; font-weight: 800;">Your Orders & Deliveries</h2>
+          <p style="color: #666; font-size: 0.9rem;">Track real-time rural cold-chain dispatches from farm gates to your doorstep.</p>
+        </div>
+        <button type="button" class="btn btn-outline" id="btn-back-to-store">
+          ← Back to Marketplace
+        </button>
+      </div>
+
+      <!-- Orders List Container -->
+      <div id="buyer-orders-container">
+        <!-- Rendered by buyer.js -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       CART DRAWER (AMAZON STYLE SLIDE-OVER)
+       ========================================================================= -->
+  <div class="cart-drawer-overlay" id="cart-drawer-overlay"></div>
+  <aside class="cart-drawer" id="cart-drawer">
+    <div class="cart-drawer-header">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 1.3rem;">🛒</span>
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Shopping Cart</h3>
+        <span id="cart-drawer-count-pill" style="background: #e8f5e9; color: #2e7d32; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 12px;">0 items</span>
+      </div>
+      <button type="button" class="cart-drawer-close" id="btn-close-cart" title="Close Cart">✕</button>
+    </div>
+
+    <!-- Free Delivery Progress -->
+    <div style="background: #E8F5E9; padding: 10px 16px; border-bottom: 1px solid #C8E6C9;">
+      <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; color: #2E7D32; margin-bottom: 4px;">
+        <span>🚚 Cold-Chain Direct Delivery</span>
+        <span id="cart-free-delivery-badge">FREE over ₹300</span>
+      </div>
+      <div style="background: #FFF; border-radius: 10px; height: 6px; overflow: hidden;">
+        <div id="cart-free-delivery-progress" style="background: #2E7D32; width: 60%; height: 100%; transition: width 0.3s ease;"></div>
+      </div>
+    </div>
+
+    <!-- Items list -->
+    <div class="cart-drawer-body" id="cart-items-list">
+      <!-- Injected by buyer.js -->
+    </div>
+
+    <!-- Footer Summary -->
+    <div class="cart-drawer-footer">
+      <div class="cart-summary-row">
+        <span>Produce Subtotal:</span>
+        <span id="cart-subtotal-val" style="font-weight: 600;">₹0</span>
+      </div>
+      <div class="cart-summary-row">
+        <span>Cold-Chain Delivery:</span>
+        <span id="cart-delivery-val" style="font-weight: 600;">₹30</span>
+      </div>
+      <div class="cart-summary-row" style="color: #2E7D32; font-weight: 600;">
+        <span>Middleman Savings:</span>
+        <span id="cart-savings-val">-₹0</span>
+      </div>
+      <div class="cart-summary-total">
+        <span>Total Payable:</span>
+        <span id="cart-total-val">₹0</span>
+      </div>
+
+      <button type="button" class="btn btn-accent btn-lg" style="width: 100%; margin-top: 14px; border-radius: 24px;" id="btn-proceed-checkout">
+        Proceed to Checkout
+      </button>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       PRODUCT DETAIL QUICK VIEW MODAL
+       ========================================================================= -->
+  <div class="modal" id="modal-product-details">
+    <div class="modal-content" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 id="modal-prod-title" style="font-size: 1.25rem;">Produce Details</h3>
+        <button type="button" class="modal-close" id="btn-close-product-modal">✕</button>
+      </div>
+      <div class="modal-body" id="modal-prod-body">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MULTI-STEP CHECKOUT MODAL (AMAZON STYLE)
+       ========================================================================= -->
+  <div class="modal" id="modal-checkout">
+    <div class="modal-content" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.25rem;">Complete Your Farm-Direct Order</h3>
+        <button type="button" class="modal-close" id="btn-close-checkout-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-checkout">
+          <!-- Step 1: Delivery Address -->
+          <div style="margin-bottom: 20px;">
+            <h5 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; color: #111;">
+              1. Delivery Address & Contact
+            </h5>
+            <div class="form-group" style="margin-bottom: 8px;">
+              <input type="text" id="checkout-name" class="form-control" placeholder="Recipient Name" value="Ananya Sharma" required />
             </div>
-
-            <div style="font-size: 0.88rem; color: #666; margin-top: 14px; line-height: 1.5;">
-              * Benchmarked against average APMC Mandi arrival net payouts vs KisanConnect farm-gate direct listing prices.
+            <div class="form-group" style="margin-bottom: 8px;">
+              <input type="tel" id="checkout-phone" class="form-control" placeholder="Mobile Number (+91)" value="+91 98201 44521" required />
+            </div>
+            <div class="form-group" style="margin-bottom: 8px;">
+              <textarea id="checkout-address" class="form-control" rows="2" placeholder="Full Flat / House / Street Address" required>Flat 402, Green Meadows, Baner, Pune - 411045</textarea>
             </div>
           </div>
 
-          <div class="calc-results">
-            <div class="calc-stat-row">
-              <span>Traditional Mandi Farmer Payout:</span>
-              <strong id="calc-mandi-net">₹13,000</strong>
-            </div>
-            <div class="calc-stat-row">
-              <span>Middleman Commission Absorbed:</span>
-              <strong id="calc-commission-cut" style="color: #D32F2F;">- ₹4,000 (23%)</strong>
-            </div>
-            <div class="calc-stat-row">
-              <span>KisanConnect Direct Farmer Revenue:</span>
-              <strong id="calc-direct-revenue" style="color: #2E7D32;">₹17,000</strong>
-            </div>
-            <div class="calc-stat-row">
-              <span>Consumer Savings vs City Supermarket:</span>
-              <strong id="calc-consumer-savings" style="color: #F4A300;">Saved ₹7,000 (29%)</strong>
-            </div>
-
-            <div class="calc-extra-profit">
-              <div>Farmer Additional Net Profit</div>
-              <h3 id="calc-extra-profit-val">+ ₹4,000 (+30.8%)</h3>
-              <small>Zero distress sales • Direct UPI bank settlement</small>
+          <!-- Step 2: Delivery Slot -->
+          <div style="margin-bottom: 20px;">
+            <h5 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; color: #111;">
+              2. Fresh Delivery Slot
+            </h5>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <label style="border: 1px solid #C8E6C9; background: #F1F8E9; padding: 8px 12px; border-radius: 6px; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                <input type="radio" name="checkout-slot" value="Morning Slot (7:00 AM - 10:00 AM)" checked style="accent-color: #2E7D32;" />
+                <span>🌅 Tomorrow Morning (7 AM - 10 AM)</span>
+              </label>
+              <label style="border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                <input type="radio" name="checkout-slot" value="Evening Slot (4:00 PM - 7:00 PM)" style="accent-color: #2E7D32;" />
+                <span>🌆 Tomorrow Evening (4 PM - 7 PM)</span>
+              </label>
             </div>
           </div>
+
+          <!-- Step 3: Payment Method -->
+          <div style="margin-bottom: 20px;">
+            <h5 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; color: #111;">
+              3. Payment Method
+            </h5>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <label style="border: 1px solid #2E7D32; background: #F1F8E9; padding: 10px 14px; border-radius: 6px; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                <input type="radio" name="checkout-payment" value="KisanPay Direct UPI" checked style="accent-color: #2E7D32;" />
+                <div>
+                  <strong>⚡ KisanPay Direct UPI (Zero Gateway Fee)</strong>
+                  <div style="font-size: 0.75rem; color: #555;">Instant settlement directly into Ramesh Patil's bank account.</div>
+                </div>
+              </label>
+              <label style="border: 1px solid var(--border); padding: 10px 14px; border-radius: 6px; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                <input type="radio" name="checkout-payment" value="Cash on Delivery (COD)" style="accent-color: #2E7D32;" />
+                <div>
+                  <strong>💵 Cash / UPI on Delivery</strong>
+                  <div style="font-size: 0.75rem; color: #555;">Pay to driver upon inspecting produce freshness.</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Order Summary in Modal -->
+          <div style="background: #F9F9F9; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 4px;">
+              <span>Items Total:</span>
+              <span id="modal-checkout-subtotal" style="font-weight: 600;">₹0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 4px;">
+              <span>Logistics Delivery Fee:</span>
+              <span id="modal-checkout-delivery" style="font-weight: 600;">₹30</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 800; border-top: 1px solid #DDD; padding-top: 6px; margin-top: 6px;">
+              <span>Amount to Pay:</span>
+              <span id="modal-checkout-total" style="color: #2E7D32;">₹0</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-accent btn-lg" style="width: 100%; border-radius: 24px;" id="btn-confirm-order">
+            Place Farm-Direct Order
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       LOCATION SELECTOR MODAL (DELIVER TO PINCODE)
+       ========================================================================= -->
+  <div class="modal" id="modal-location">
+    <div class="modal-content" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.15rem;">Choose Delivery Location</h3>
+        <button type="button" class="modal-close" id="btn-close-location-modal">✕</button>
+      </div>
+      <div class="modal-body location-modal-body">
+        <p style="font-size: 0.85rem; color: #555; margin-bottom: 12px;">
+          Select your city or enter your 6-digit delivery pincode to see available harvest schedules & cold-chain routes:
+        </p>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <input type="text" id="input-custom-pin" class="form-control" placeholder="Enter Pincode (e.g. 411045)" maxlength="6" />
+          <button type="button" class="btn btn-primary btn-sm" id="btn-apply-pin">Apply</button>
+        </div>
+
+        <h5 style="font-size: 0.85rem; font-weight: 700; color: #333; margin-bottom: 8px;">Popular Delivery Hubs:</h5>
+        <div class="location-chip-list">
+          <button type="button" class="location-chip active" data-city="Pune" data-area="Baner" data-pin="411045">📍 Pune (411045)</button>
+          <button type="button" class="location-chip" data-city="Mumbai" data-area="Dadar" data-pin="400028">📍 Mumbai (400028)</button>
+          <button type="button" class="location-chip" data-city="Nashik" data-area="College Rd" data-pin="422005">📍 Nashik (422005)</button>
+          <button type="button" class="location-chip" data-city="Nagpur" data-area="Dharampeth" data-pin="440010">📍 Nagpur (440010)</button>
+          <button type="button" class="location-chip" data-city="Bengaluru" data-area="Indiranagar" data-pin="560038">📍 Bengaluru (560038)</button>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- How It Works Section -->
-  <section class="sih-section" id="how-it-works">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Streamlined Supply Chain</span>
-        <h2 class="section-title">How KisanConnect Works</h2>
-        <p class="section-desc">From harvest to doorstep in 4 simple steps.</p>
+  <!-- Footer (Amazon / Flipkart Style) -->
+  <footer style="background: #131921; color: #DDD; padding: 48px 0 24px; font-size: 0.85rem; border-top: 4px solid #2E7D32;">
+    <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-bottom: 36px;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+          <span style="font-size: 1.6rem;">🌾</span>
+          <strong style="font-size: 1.25rem; color: #FFF;">Kisan<span style="color: #FF9900;">Connect</span></strong>
+        </div>
+        <p style="color: #AAA; line-height: 1.5; margin-bottom: 16px;">
+          India's leading direct farm-to-doorstep e-commerce platform. Eliminating middleman commissions, providing fair farmer compensation, and guaranteeing cold-chain fresh nutrition.
+        </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
-        <div class="card" style="text-align: center;">
-          <div style="font-size: 2.2rem; margin-bottom: 12px;">🌱</div>
-          <h4 style="font-size: 1.15rem; margin-bottom: 6px;">1. AI Demand Guidance</h4>
-          <p style="font-size: 0.88rem; color: #666;">Farmers view 7-14 day forecast charts and price insights before scheduling their harvest.</p>
-        </div>
+      <div>
+        <h5 style="color: #FFF; font-size: 0.95rem; margin-bottom: 12px;">Make Money with Us</h5>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+          <li><a href="farmer-dashboard.html" style="color: #FEB800; font-weight: 600;">👨‍🌾 Sell on KisanConnect</a></li>
+          <li><a href="login.html?role=farmer" style="color: #AAA;">Register as Farmer or FPO</a></li>
+          <li><a href="login.html?role=buyer" style="color: #AAA;">Bulk Purchasing for Hotels</a></li>
+          <li><a href="#" style="color: #AAA;">Rural Cold-Chain Logistics Partner</a></li>
+        </ul>
+      </div>
 
-        <div class="card" style="text-align: center;">
-          <div style="font-size: 2.2rem; margin-bottom: 12px;">📱</div>
-          <h4 style="font-size: 1.15rem; margin-bottom: 6px;">2. Direct Farm Listing</h4>
-          <p style="font-size: 0.88rem; color: #666;">Produce is listed with crop details, harvest date, and bulk price tiers for wholesale buyers.</p>
-        </div>
+      <div>
+        <h5 style="color: #FFF; font-size: 0.95rem; margin-bottom: 12px;">Shop Categories</h5>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+          <li><a href="#" class="footer-cat-link" data-category="Vegetables" style="color: #AAA;">Fresh Vegetables (Nashik / Pune)</a></li>
+          <li><a href="#" class="footer-cat-link" data-category="Fruits" style="color: #AAA;">GI-Tagged Farm Fruits</a></li>
+          <li><a href="#" class="footer-cat-link" data-category="Grains" style="color: #AAA;">MP Sharbati Wheat & Atta</a></li>
+          <li><a href="#" class="footer-cat-link" data-category="Pulses" style="color: #AAA;">Unpolished Organic Dals</a></li>
+        </ul>
+      </div>
 
-        <div class="card" style="text-align: center;">
-          <div style="font-size: 2.2rem; margin-bottom: 12px;">🛒</div>
-          <h4 style="font-size: 1.15rem; margin-bottom: 6px;">3. Direct Purchase</h4>
-          <p style="font-size: 0.88rem; color: #666;">Households, apartments, and restaurants buy fresh farm produce without intermediary markups.</p>
-        </div>
-
-        <div class="card" style="text-align: center;">
-          <div style="font-size: 2.2rem; margin-bottom: 12px;">🚚</div>
-          <h4 style="font-size: 1.15rem; margin-bottom: 6px;">4. Verified Rural Logistics</h4>
-          <p style="font-size: 0.88rem; color: #666;">Cold-chain pickup from farm gate straight to consumer hub with live 4-step status tracker.</p>
+      <div>
+        <h5 style="color: #FFF; font-size: 0.95rem; margin-bottom: 12px;">Security & Fair Trade</h5>
+        <p style="color: #AAA; line-height: 1.5;">
+          100% Direct Payouts. Certified by National Cooperative Development Corporation & APMC reforms initiative.
+        </p>
+        <div style="margin-top: 12px; display: flex; gap: 8px;">
+          <span style="background: #232f3e; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; border: 1px solid #444;">🛡️ Verified FPO Produce</span>
+          <span style="background: #232f3e; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; border: 1px solid #444;">❄️ Cold-Chain</span>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <div class="brand-logo" style="color: #FFFFFF; margin-bottom: 14px;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: #F4A300;">
-              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
-            </svg>
-            <span>KisanConnect</span>
-          </div>
-          <p style="font-size: 0.9rem; line-height: 1.6; color: #B4C2B2;">
-            Empowering Indian agriculture through direct farm-to-consumer digital commerce, transparent price discovery, and predictive AI demand planning. Built for SIH26033.
-          </p>
-        </div>
-
-        <div class="footer-col">
-          <h4>Prototype Links</h4>
-          <ul class="footer-links">
-            <li><a href="farmer-dashboard.html">👨‍🌾 Farmer / FPO Dashboard</a></li>
-            <li><a href="buyer-dashboard.html">🛒 Consumer & Bulk Buyer Store</a></li>
-            <li><a href="login.html">🔑 Sign In / Choose Role</a></li>
-            <li><a href="#mandi-calculator">📊 Mandi Calculator</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>SIH26033 Architecture</h4>
-          <p style="font-size: 0.85rem; color: #B4C2B2; margin-bottom: 12px;">
-            Clean vanilla JS frontend structured with <code>fetch()</code> client modules ready to integrate with Django REST Framework backend APIs.
-          </p>
-          <div style="font-size: 0.78rem; color: #8D9E8B;">
-            Endpoints: <code>/api/produce/</code> • <code>/api/orders/</code> • <code>/api/forecast/</code>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        KisanConnect • Smart India Hackathon Problem SIH26033 Prototype • Farm to Table, No Middlemen.
-      </div>
+    <div class="container" style="border-top: 1px solid #333; padding-top: 20px; text-align: center; color: #888; font-size: 0.78rem;">
+      © 2026 KisanConnect Direct Farm Marketplace. Farm to Table, No Middlemen.
     </div>
   </footer>
 
-  <script type="module" src="./app.js"></script>
-  <script type="module">
-    import { renderDemoBar, formatINR } from './app.js';
-    renderDemoBar('landing');
-
-    // Mandi vs KisanConnect live calculator
-    const cropSelect = document.getElementById('calc-crop');
-    const qtyInput = document.getElementById('calc-qty');
-
-    function updateCalc() {
-      const opt = cropSelect.options[cropSelect.selectedIndex];
-      const mandiPerKg = Number(opt.getAttribute('data-mandi'));
-      const directPerKg = Number(opt.getAttribute('data-direct'));
-      const retailPerKg = Number(opt.getAttribute('data-retail'));
-      const qty = Number(qtyInput.value) || 100;
-
-      const mandiNet = mandiPerKg * qty;
-      const directRev = directPerKg * qty;
-      const retailCost = retailPerKg * qty;
-      const commissionCut = directRev - mandiNet;
-      const consumerSavings = retailCost - directRev;
-      const extraProfitPct = (((directRev - mandiNet) / mandiNet) * 100).toFixed(1);
-
-      document.getElementById('calc-mandi-net').textContent = formatINR(mandiNet);
-      document.getElementById('calc-commission-cut').textContent = `- ${formatINR(commissionCut)} (${extraProfitPct}%)`;
-      document.getElementById('calc-direct-revenue').textContent = formatINR(directRev);
-      document.getElementById('calc-consumer-savings').textContent = `Saved ${formatINR(consumerSavings)} (${Math.round((consumerSavings/retailCost)*100)}%)`;
-      document.getElementById('calc-extra-profit-val').textContent = `+ ${formatINR(commissionCut)} (+${extraProfitPct}%)`;
-    }
-
-    cropSelect.addEventListener('change', updateCalc);
-    qtyInput.addEventListener('input', updateCalc);
-    updateCalc();
-  </script>
+  <!-- Scripts -->
+  <script type="module" src="./buyer.js"></script>
 </body>
 </html>
