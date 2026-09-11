@@ -6,7 +6,7 @@
  * ==============================================================================
  */
 
-import { fetchProduce, createProduce, deleteProduce, updateProduceStock, fetchOrders, updateOrderStatus, fetchDemandForecast, fetchFarmerEarnings } from './api.js';
+import { fetchProduce, createProduce, deleteProduce, updateProduceStock, fetchOrders, updateOrderStatus, fetchDemandForecast, fetchFarmerEarnings, getLogisticsData } from './api.js';
 import { getCurrentUser, setCurrentUser, formatINR, showToast, renderDemoBar, logout } from './app.js';
 
 let chartInstance = null;
@@ -399,9 +399,272 @@ async function loadOrders() {
 }
 
 /**
- * 3. LOGISTICS STEP TRACKER PANEL
+ * 3. LOGISTICS STEP TRACKER PANEL & ACTIVE OR-TOOLS ROUTE TRACKER
  */
+let liveLogisticsState = null;
+
+async function renderActiveLogisticsTracker() {
+  const card = document.getElementById('active-logistics-card');
+  if (!card) return;
+
+  try {
+    if (!liveLogisticsState) {
+      liveLogisticsState = await getLogisticsData();
+    }
+    const data = liveLogisticsState;
+
+    // Update quick banner if present in Tab 1
+    const quickTruckEl = document.getElementById('quick-banner-truck-id');
+    if (quickTruckEl) quickTruckEl.textContent = data.truckId;
+
+    // Steps definition
+    const steps = ["Pending Pickup", "Truck En Route", "Picked Up", "Delivered to Hub"];
+    const activeIndex = steps.indexOf(data.currentStatus);
+
+    // Build timeline HTML
+    const timelineHtml = `
+      <div class="relative py-4">
+        <!-- Connecting Progress Bar -->
+        <div class="absolute top-8 left-6 right-6 h-1.5 bg-gray-200 rounded -translate-y-1/2 z-0">
+          <div class="h-full bg-emerald-600 rounded transition-all duration-500" 
+               style="width: ${activeIndex <= 0 ? '0%' : activeIndex === 1 ? '38%' : activeIndex === 2 ? '72%' : '100%'}">
+          </div>
+        </div>
+
+        <!-- 4 Milestones Grid -->
+        <div class="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+          ${steps.map((stepName, idx) => {
+            const isPassed = idx < activeIndex;
+            const isCurrent = idx === activeIndex;
+            const milestoneData = data.milestones ? data.milestones[idx] : null;
+            const timeStr = milestoneData ? milestoneData.time : '';
+            const noteStr = milestoneData ? milestoneData.note : '';
+
+            let circleClasses = "bg-gray-100 border-2 border-gray-300 text-gray-400";
+            let badgeHtml = "";
+
+            if (isPassed) {
+              circleClasses = "bg-emerald-600 border-2 border-emerald-600 text-white shadow-sm";
+            } else if (isCurrent) {
+              circleClasses = "bg-emerald-500 border-4 border-emerald-200 text-white ring-4 ring-emerald-100 shadow-md animate-pulse";
+              badgeHtml = `<span class="inline-block mt-1 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 rounded-full">Current Stage</span>`;
+            }
+
+            return `
+              <div class="flex flex-col items-center text-center p-2 rounded-xl ${isCurrent ? 'bg-emerald-50/60 border border-emerald-200' : ''}">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm mb-2 ${circleClasses} transition-all">
+                  ${isPassed ? '✓' : (idx + 1)}
+                </div>
+                <div class="text-sm font-bold ${isCurrent ? 'text-emerald-900' : isPassed ? 'text-gray-900' : 'text-gray-400'}">
+                  ${stepName}
+                </div>
+                <div class="text-xs font-semibold text-emerald-700 mt-0.5">${timeStr}</div>
+                <div class="text-[11px] text-gray-500 mt-1 max-w-[160px] line-clamp-2">${noteStr}</div>
+                ${badgeHtml}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+
+    // Build Stops HTML for the Route Plan
+    const stopsHtml = data.routePlan.stops.map((stop) => {
+      const isFarmer = stop.isFarmerFarm;
+      const isCompleted = stop.status === 'Completed';
+      const isCurrentStop = stop.status.includes('En Route') || stop.status.includes('Next');
+
+      return `
+        <div class="relative p-3.5 rounded-xl border transition-all ${
+          isFarmer 
+            ? 'bg-emerald-50/90 border-emerald-300 ring-2 ring-emerald-200 shadow-sm' 
+            : isCompleted
+            ? 'bg-slate-50 border-slate-200 text-slate-700'
+            : 'bg-white border-gray-200 text-gray-600'
+        }">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+              isFarmer ? 'bg-emerald-700 text-white font-mono' : 'bg-gray-200 text-gray-700'
+            }">
+              ${stop.code}
+            </span>
+            <span class="text-xs font-semibold ${isFarmer ? 'text-emerald-800' : 'text-gray-500'}">
+              ${stop.time}
+            </span>
+          </div>
+
+          <div class="font-bold text-sm ${isFarmer ? 'text-emerald-950 flex items-center gap-1.5' : 'text-gray-900'}">
+            ${isFarmer ? '📍 ' : ''}${stop.title}
+          </div>
+
+          <div class="text-xs text-gray-500 mt-0.5 truncate" title="${stop.location}">
+            ${stop.location}
+          </div>
+
+          <div class="mt-2.5 pt-2 border-t ${isFarmer ? 'border-emerald-200' : 'border-gray-100'} flex items-center justify-between text-xs">
+            <span class="font-medium ${
+              isCompleted ? 'text-emerald-700 font-semibold' : isCurrentStop ? 'text-amber-700 font-bold' : 'text-gray-500'
+            }">
+              ${isCompleted ? '✓ ' : isCurrentStop ? '⏳ ' : '⏱️ '}${stop.status}
+            </span>
+            ${isFarmer ? '<span class="text-[10px] font-bold bg-amber-100 text-amber-900 px-1.5 py-0.5 rounded">You</span>' : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    card.innerHTML = `
+      <!-- Header -->
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-gray-100">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl text-emerald-800 shadow-inner">
+            🚚
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-xl font-bold text-gray-900">Active Logistics & Tracking</h3>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 animate-pulse">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Live Telematics
+              </span>
+            </div>
+            <p class="text-sm text-gray-500 mt-0.5">
+              Farm-to-hub cold-chain dispatch with AI-optimized multi-stop consolidation
+            </p>
+          </div>
+        </div>
+
+        <!-- Telematics Info Pill -->
+        <div class="flex items-center gap-3 bg-emerald-50/80 border border-emerald-200 px-4 py-2.5 rounded-xl text-sm">
+          <div>
+            <div class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider">Assigned Truck</div>
+            <div class="font-mono font-extrabold text-emerald-950 text-base">${data.truckId}</div>
+          </div>
+          <div class="h-8 w-px bg-emerald-200"></div>
+          <div>
+            <div class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider">Est. Farm Pickup</div>
+            <div class="font-bold text-emerald-900">${data.estimatedPickup}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bulk Order Metadata Strip -->
+      <div class="my-5 p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-wrap items-center justify-between gap-4 text-sm">
+        <div class="flex items-center gap-2 text-slate-700">
+          <span class="font-bold text-slate-900">Consignment:</span>
+          <span class="font-medium text-slate-700">${data.consignmentName}</span>
+          <span class="text-xs bg-white px-2 py-0.5 rounded border border-slate-300 font-bold text-emerald-700">${data.volumeKg} kg Bulk Lot</span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 text-slate-600 text-xs sm:text-sm">
+          <span class="flex items-center gap-1.5 font-medium">
+            ❄️ Reefer Temp: <strong class="text-slate-800">${data.coolingTemp}</strong>
+          </span>
+          <span class="flex items-center gap-1.5 font-medium">
+            👤 Driver: <strong class="text-slate-800">${data.driverName}</strong> (${data.driverPhone})
+          </span>
+          <span class="flex items-center gap-1.5 text-xs bg-emerald-100 text-emerald-900 px-2.5 py-1 rounded-md font-semibold">
+            ${data.vehicleType}
+          </span>
+        </div>
+      </div>
+
+      <!-- Milestone Timeline Progress Tracker -->
+      <div class="mb-7">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Live Delivery Milestones</span>
+          <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-300 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+            Current: ${data.currentStatus}
+          </span>
+        </div>
+
+        ${timelineHtml}
+      </div>
+
+      <!-- Optimized Route Plan (Google OR-Tools VRP) -->
+      <div class="rounded-xl border border-emerald-200 bg-gradient-to-br from-emerald-50/60 via-white to-green-50/40 p-5 shadow-inner">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🗺️</span>
+            <h4 class="font-bold text-gray-900 text-base">Optimized Route Plan</h4>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-emerald-700 text-white">
+              Google OR-Tools VRP
+            </span>
+          </div>
+          <div class="text-xs text-emerald-900 font-bold bg-emerald-100/90 px-3 py-1 rounded-full border border-emerald-200">
+            🌱 ${data.routePlan.co2SavedKg} saved • ${data.routePlan.efficiencyScore}
+          </div>
+        </div>
+
+        <p class="text-xs text-gray-600 mb-4 leading-relaxed">
+          Simulated Capacitated Vehicle Routing Problem (CVRP) consolidation algorithm. Clusters nearby farm harvests (Niphad + Lasalgaon) to maximize truck utilization and maintain rural cold-chain freshness.
+        </p>
+
+        <!-- Route Stops Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          ${stopsHtml}
+        </div>
+
+        <!-- Route Summary Footer & Interactive Simulation Button -->
+        <div class="mt-4 pt-3.5 border-t border-emerald-100 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2 font-mono text-emerald-900 font-semibold">
+            <span>Route:</span>
+            <span>${data.route}</span>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span class="text-gray-500 font-medium">${data.routePlan.totalDistanceKm} km total • Fuel saving: ${data.routePlan.fuelSavingPct}</span>
+            <button type="button" id="btn-advance-logistics-demo" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow-sm transition-colors text-xs flex items-center gap-1">
+              <span>⚡ Advance Milestone (Demo)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Interactive milestone advance for realistic live demo
+    const advanceBtn = document.getElementById('btn-advance-logistics-demo');
+    if (advanceBtn) {
+      advanceBtn.addEventListener('click', () => {
+        const nextSteps = ["Pending Pickup", "Truck En Route", "Picked Up", "Delivered to Hub"];
+        const curIdx = nextSteps.indexOf(liveLogisticsState.currentStatus);
+        const nextIdx = (curIdx + 1) % nextSteps.length;
+        liveLogisticsState.currentStatus = nextSteps[nextIdx];
+
+        if (liveLogisticsState.milestones) {
+          liveLogisticsState.milestones.forEach((m, idx) => {
+            m.isCompleted = idx <= nextIdx;
+            m.isCurrent = idx === nextIdx;
+          });
+        }
+
+        if (nextIdx === 2) {
+          liveLogisticsState.estimatedPickup = "Picked Up at Farm Gate!";
+          showToast(`Consignment picked up! Truck ${liveLogisticsState.truckId} heading to City Market.`, 'success');
+        } else if (nextIdx === 3) {
+          liveLogisticsState.estimatedPickup = "Delivered to Hub Terminal!";
+          showToast(`Consignment delivered to City Market terminal!`, 'success');
+        } else if (nextIdx === 0) {
+          liveLogisticsState.estimatedPickup = "Today, 11:45 AM";
+          showToast(`Telematics reset: Consignment pending pickup.`, 'info');
+        } else {
+          showToast(`Telematics updated: Status is now "${liveLogisticsState.currentStatus}".`, 'info');
+        }
+
+        renderActiveLogisticsTracker();
+      });
+    }
+
+  } catch (err) {
+    console.error('Failed to render active logistics tracker:', err);
+    if (card) {
+      card.innerHTML = `<div class="p-4 text-red-600 text-sm">Error loading active route tracker: ${err.message}</div>`;
+    }
+  }
+}
+
 async function loadLogistics() {
+  await renderActiveLogisticsTracker();
   const container = document.getElementById('logistics-cards-container');
   if (!container) return;
 

@@ -658,3 +658,107 @@ export async function registerUser(userData) {
     }
   };
 }
+
+/**
+ * SIMULATED LOGISTICS & ROUTE OPTIMIZATION (Google OR-Tools VRP)
+ * Provides real-time fleet telematics, milestone status, and multi-stop route plans.
+ */
+export async function getLogisticsData() {
+  await sleep(200);
+
+  // Return realistic mock data representing a live rural cold-chain vehicle
+  return {
+    orderId: "ORD-BULK-2026-8841",
+    consignmentName: "Bulk Fresh Harvest (Tomatoes & Onions)",
+    volumeKg: 650,
+    truckId: "MH-12-TR-4599",
+    vehicleType: "Tata 407 Cold-Chain Reefer (4-Ton)",
+    driverName: "Vikram Gaikwad",
+    driverPhone: "+91 98223 88102",
+    estimatedPickup: "Today, 11:45 AM (in ~35 mins)",
+    currentStatus: "Truck En Route", // "Pending Pickup" | "Truck En Route" | "Picked Up" | "Delivered to Hub"
+    currentMilestoneIndex: 1, // 0: Pending Pickup, 1: Truck En Route, 2: Picked Up, 3: Delivered to Hub
+    coolingTemp: "4.2°C (Optimal)",
+    route: "Hub -> Farm A -> Your Farm -> City Market",
+    routePlan: {
+      engine: "Google OR-Tools Capacitated Vehicle Routing Problem (CVRP)",
+      efficiencyScore: "94.2% Optimal",
+      totalDistanceKm: 184,
+      co2SavedKg: "42.5 kg CO₂",
+      fuelSavingPct: "22%",
+      stops: [
+        {
+          code: "DEPOT",
+          title: "Hub (Nashik Central)",
+          location: "Ozar Logistics Park, Nashik",
+          time: "09:15 AM",
+          status: "Completed",
+          isFarmerFarm: false
+        },
+        {
+          code: "STOP-1",
+          title: "Farm A (Niphad)",
+          location: "Shinde Agro FPO, Niphad",
+          time: "10:30 AM",
+          status: "Completed",
+          isFarmerFarm: false
+        },
+        {
+          code: "STOP-2",
+          title: "Your Farm (Lasalgaon)",
+          location: "Patil Organic Farm Gate, Lasalgaon",
+          time: "11:45 AM",
+          status: "En Route (Next Stop)",
+          isFarmerFarm: true
+        },
+        {
+          code: "DEST",
+          title: "City Market (Vashi)",
+          location: "Vashi APMC Cold Storage Terminal, Mumbai",
+          time: "03:30 PM",
+          status: "Scheduled",
+          isFarmerFarm: false
+        }
+      ]
+    },
+    milestones: [
+      {
+        id: "step-1",
+        label: "Pending Pickup",
+        status: "Completed",
+        time: "Today, 09:15 AM",
+        note: "Produce graded & sealed in ventilated crates",
+        isCurrent: false,
+        isCompleted: true
+      },
+      {
+        id: "step-2",
+        label: "Truck En Route",
+        status: "In Progress",
+        time: "Departed 10:40 AM (Niphad)",
+        note: "Reefer vehicle MH-12-TR-4599 heading towards Lasalgaon",
+        isCurrent: true,
+        isCompleted: false
+      },
+      {
+        id: "step-3",
+        label: "Picked Up",
+        status: "Upcoming",
+        time: "Est. 11:45 AM",
+        note: "Farm gate weighing & digital receipt generation",
+        isCurrent: false,
+        isCompleted: false
+      },
+      {
+        id: "step-4",
+        label: "Delivered to Hub",
+        status: "Upcoming",
+        time: "Est. 03:30 PM",
+        note: "Direct delivery to urban wholesale buyer terminal",
+        isCurrent: false,
+        isCompleted: false
+      }
+    ]
+  };
+}
+
